@@ -39,6 +39,16 @@ public class Location {
     public Location() {
     }
 
+    // Constructor con todos los parámetros
+    public Location(String name, String address, String city, String contactNumber, String websiteUrl, String googleMapsUrl) {
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.contactNumber = contactNumber;
+        this.websiteUrl = websiteUrl;
+        this.googleMapsUrl = googleMapsUrl;
+    }
+
     // Getters y Setters
 
     public Long getId() {
@@ -95,5 +105,19 @@ public class Location {
 
     public void setGoogleMapsUrl(String googleMapsUrl) {
         this.googleMapsUrl = googleMapsUrl;
+    }
+
+    // Método toString para facilitar la depuración
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", websiteUrl='" + websiteUrl + '\'' +
+                ", googleMapsUrl='" + googleMapsUrl + '\'' +
+                '}';
     }
 }

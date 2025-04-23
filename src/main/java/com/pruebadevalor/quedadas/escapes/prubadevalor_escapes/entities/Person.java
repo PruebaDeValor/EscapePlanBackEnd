@@ -42,8 +42,26 @@ public class Person {
     @ManyToMany(mappedBy = "members")
     private List<Group> groups; // Grupos a los que pertenece la persona (relación bidireccional)
 
+    private boolean isPremium; // Indica si la persona es premium o no
+    
+
     // Constructor vacío requerido por JPA
     public Person() {
+    }
+
+    // Constructor con parámetros
+    public Person(String firstName, String lastName, LocalDate birthDate, Integer numEscapes,
+                  Integer numEscapesOrganized, Integer numPlans, Integer numPlansOrganized,
+                  LocalDate registrationDate, boolean isPremium) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.numEscapes = numEscapes;
+        this.numEscapesOrganized = numEscapesOrganized;
+        this.numPlans = numPlans;
+        this.numPlansOrganized = numPlansOrganized;
+        this.registrationDate = registrationDate;
+        this.isPremium = isPremium;
     }
 
     // Getters y setters
@@ -144,4 +162,28 @@ public class Person {
         this.groups = groups;
     }
 
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+
+    // Método toString para depuración
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", numEscapes=" + numEscapes +
+                ", numEscapesOrganized=" + numEscapesOrganized +
+                ", numPlans=" + numPlans +
+                ", numPlansOrganized=" + numPlansOrganized +
+                ", registrationDate=" + registrationDate +
+                ", isPremium=" + isPremium +
+                '}';
+    }
 }

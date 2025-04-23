@@ -35,6 +35,16 @@ public class Room {
         // Constructor vacío
     }
 
+    // Constructor con todos los parámetros
+    public Room(String name, String shortDescription, String longDescription, String theme, String imageName, Location location) {
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
+        this.theme = theme;
+        this.imageName = imageName;
+        this.location = location;
+    }
+
     // Getters y setters
 
     public Long getId() {

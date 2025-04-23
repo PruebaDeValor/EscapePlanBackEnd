@@ -56,6 +56,21 @@ public class PersonGroup {
     public PersonGroup() {
         // Constructor vacío
     }
+    // Constructor con todos los parámetros
+    public PersonGroup(Person person, Group group, LocalDate registrationDate, Role role, Integer title,
+                       LocalDate lastEscape, Integer numEscapesGroup, Integer numEscapesGroupOrganized,
+                       Integer numPlansGroup, Integer numPlansGroupOrganized) {
+        this.person = person;
+        this.group = group;
+        this.registrationDate = registrationDate;
+        this.role = role;
+        this.title = title;
+        this.lastEscape = lastEscape;
+        this.numEscapesGroup = numEscapesGroup;
+        this.numEscapesGroupOrganized = numEscapesGroupOrganized;
+        this.numPlansGroup = numPlansGroup;
+        this.numPlansGroupOrganized = numPlansGroupOrganized;
+    }
 
     // Getters y Setters
 
@@ -146,6 +161,13 @@ public class PersonGroup {
     public void setNumPlansGroupOrganized(Integer numPlansGroupOrganized) {
         this.numPlansGroupOrganized = numPlansGroupOrganized;
     }
+    @Override
+    public String toString() {
+        return "PersonGroup [id=" + id + ", person=" + person + ", group=" + group + ", registrationDate="
+                + registrationDate + ", role=" + role + ", title=" + title + ", lastEscape=" + lastEscape
+                + ", numEscapesGroup=" + numEscapesGroup + ", numEscapesGroupOrganized=" + numEscapesGroupOrganized
+                + ", numPlansGroup=" + numPlansGroup + ", numPlansGroupOrganized=" + numPlansGroupOrganized + "]";
+    }
 
-
+    
 }

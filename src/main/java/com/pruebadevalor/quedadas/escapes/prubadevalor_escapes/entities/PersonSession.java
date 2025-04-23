@@ -23,8 +23,18 @@ public class PersonSession {
     @Max(5)
     private Double rating;
 
+    // Constructor vacío requerido por JPA
     public PersonSession() {
     }
+
+    // Constructor con todos los parámetros
+    public PersonSession(Person person, Session session, Double rating) {
+        this.person = person;
+        this.session = session;
+        this.rating = rating;
+    }
+
+    // Getters y Setters
 
     public Long getId() {
         return id;

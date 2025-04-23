@@ -44,7 +44,24 @@ public class Session {
     @OneToMany(mappedBy = "session")
     private List<PersonSession> personSessions;
 
-    public Session() {}
+    // Constructor vacío requerido por JPA
+    public Session() {
+    }
+
+    // Constructor con todos los parámetros
+    public Session(Room room, Group group, LocalDateTime startTime, LocalDateTime endTime,
+                   Integer durationMinutes, String status, String notes, Person organizedBy) {
+        this.room = room;
+        this.group = group;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.durationMinutes = durationMinutes;
+        this.status = status;
+        this.notes = notes;
+        this.organizedBy = organizedBy;
+    }
+
+    // Getters y Setters
 
     public Long getId() {
         return id;

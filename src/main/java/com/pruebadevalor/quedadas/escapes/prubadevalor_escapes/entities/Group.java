@@ -2,6 +2,7 @@ package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.List;
@@ -30,6 +31,14 @@ public class Group {
     @Min(value = 1, message = "Title must be at least 1")
     private Integer title; // Título numérico (ej: 1 = Recién creado, 10 = Hermandad legendaria)
 
+    @Min(value = 18, message = "Minimum age must be at least 18")
+    @Max(value = 120, message = "Minimum age cannot exceed 120")
+    private Integer minAge; // Edad mínima para pertenecer al grupo
+
+    @Min(value = 18, message = "Maximum age must be at least 18")
+    @Max(value = 120, message = "Maximum age cannot exceed 120")
+    private Integer maxAge; // Edad máxima para pertenecer al grupo
+
     @OneToMany(mappedBy = "group")
     private List<PersonGroup> personGroups; // Lista de relaciones Person-Group
 
@@ -39,6 +48,18 @@ public class Group {
 
     // Constructor vacío requerido por JPA
     public Group() {
+    }
+
+    // Constructor con todos los parámetros
+    public Group(String name, String description, String baseCity, String logoFileName,
+                 Integer title, Integer minAge, Integer maxAge) {
+        this.name = name;
+        this.description = description;
+        this.baseCity = baseCity;
+        this.logoFileName = logoFileName;
+        this.title = title;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
     }
 
     // Getters y setters
@@ -91,6 +112,22 @@ public class Group {
         this.title = title;
     }
 
+    public Integer getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(Integer minAge) {
+        this.minAge = minAge;
+    }
+
+    public Integer getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(Integer maxAge) {
+        this.maxAge = maxAge;
+    }
+
     public List<PersonGroup> getPersonGroups() {
         return personGroups;
     }
@@ -107,4 +144,14 @@ public class Group {
         this.members = members;
     }
 
+    //toString() para depuración
+    @Override
+    public String toString() {
+        return "Group [id=" + id + ", name=" + name + ", description=" + description + ", baseCity=" + baseCity
+                + ", logoFileName=" + logoFileName + ", title=" + title + ", minAge=" + minAge + ", maxAge=" + maxAge
+                + ", personGroups=" + personGroups + ", members=" + members + "]";
+    }
+
+    
+    
 }
