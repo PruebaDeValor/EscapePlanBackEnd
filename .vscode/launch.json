@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PrubadevalorEscapesApplication<prubadevalor-escapes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.PrubadevalorEscapesApplication",
+            "projectName": "prubadevalor-escapes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

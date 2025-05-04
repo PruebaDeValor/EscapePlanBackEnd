@@ -1,5 +1,9 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories;
 
-public interface PersonPlanRepository {
+import org.springframework.data.repository.CrudRepository;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonPlan;
 
+public interface PersonPlanRepository extends CrudRepository<PersonPlan, Long> {
 }
+
+

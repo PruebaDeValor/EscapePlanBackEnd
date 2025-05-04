@@ -3,7 +3,6 @@ package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "persons")
@@ -33,15 +32,7 @@ public class Person {
 
     private LocalDate registrationDate; // Fecha de registro en la aplicación
 
-    @OneToMany(mappedBy = "person")
-    private List<PersonGroup> personGroups; // Relación de la persona con sus grupos
-
-    @OneToMany(mappedBy = "person")
-    private List<PersonSession> personSessions; // Relación de la persona con sus sesiones
-
-    @ManyToMany(mappedBy = "members")
-    private List<Group> groups; // Grupos a los que pertenece la persona (relación bidireccional)
-
+    @Column(name = "is_premium", columnDefinition = "TINYINT(1)")
     private boolean isPremium; // Indica si la persona es premium o no
     
 
@@ -138,29 +129,6 @@ public class Person {
         this.registrationDate = registrationDate;
     }
 
-    public List<PersonGroup> getPersonGroups() {
-        return personGroups;
-    }
-
-    public void setPersonGroups(List<PersonGroup> personGroups) {
-        this.personGroups = personGroups;
-    }
-
-    public List<PersonSession> getPersonSessions() {
-        return personSessions;
-    }
-
-    public void setPersonSessions(List<PersonSession> personSessions) {
-        this.personSessions = personSessions;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
 
     public boolean isPremium() {
         return isPremium;
@@ -185,5 +153,5 @@ public class Person {
                 ", registrationDate=" + registrationDate +
                 ", isPremium=" + isPremium +
                 '}';
-    }
+    }            
 }

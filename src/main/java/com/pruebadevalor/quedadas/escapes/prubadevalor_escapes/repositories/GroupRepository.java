@@ -1,5 +1,8 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories;
 
-public interface GroupRepository {
+import org.springframework.data.repository.CrudRepository;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.escapeGroup;
 
+public interface GroupRepository extends CrudRepository<escapeGroup, Long> {
 }
+

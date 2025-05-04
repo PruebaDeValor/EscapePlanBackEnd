@@ -1,5 +1,9 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories;
 
-public interface SessionRepository {
+import org.springframework.data.repository.CrudRepository;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Session;
 
+public interface SessionRepository extends CrudRepository<Session, Long> {
 }
+
+

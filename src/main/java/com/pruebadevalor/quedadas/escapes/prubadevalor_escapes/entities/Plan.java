@@ -32,7 +32,8 @@ public class Plan {
     private Person organizer; // Persona que organiza el plan
 
     @ManyToOne
-    private Group group; // Grupo asociado al plan (opcional)
+    @JoinColumn(name = "escape_group_id", nullable = true)
+    private escapeGroup escapeGroup;
 
     @Size(max = 255, message = "URL cannot be longer than 255 characters")
     private String url; // URL del plan
@@ -58,7 +59,7 @@ public class Plan {
     }
     // Constructor con todos los parámetros
     public Plan(String name, String shortDescription, String longDescription, Integer minPeople,
-                Integer maxPeople, Person organizer, Group group, String url,
+                Integer maxPeople, Person organizer, escapeGroup escapeGroup, String url,
                 String googleMapsUrl, BigDecimal price, String imageName, String address) {
         this.name = name;
         this.shortDescription = shortDescription;
@@ -66,7 +67,7 @@ public class Plan {
         this.minPeople = minPeople;
         this.maxPeople = maxPeople;
         this.organizer = organizer;
-        this.group = group;
+        this.escapeGroup = escapeGroup;
         this.url = url;
         this.googleMapsUrl = googleMapsUrl;
         this.price = price;
@@ -132,12 +133,12 @@ public class Plan {
         this.organizer = organizer;
     }
 
-    public Group getGroup() {
-        return group;
+    public escapeGroup getEscapeGroup() {
+        return escapeGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setEscapeGroup(escapeGroup escapeGroup) {
+        this.escapeGroup = escapeGroup;
     }
 
     public String getUrl() {

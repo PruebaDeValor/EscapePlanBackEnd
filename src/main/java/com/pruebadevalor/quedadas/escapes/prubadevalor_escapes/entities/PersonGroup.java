@@ -17,8 +17,8 @@ public class PersonGroup {
     private Person person; // Persona asociada al grupo
 
     @ManyToOne
-    @NotNull(message = "Group cannot be null")
-    private Group group; // Grupo al que pertenece la persona
+    @JoinColumn(name = "escape_group_id", nullable = false)
+    private escapeGroup escapeGroup; // Grupo de escape al que pertenece la persona
 
     @NotNull(message = "Registration date cannot be null")
     private LocalDate registrationDate; // Fecha de registro de la persona en el grupo
@@ -53,15 +53,13 @@ public class PersonGroup {
 
     private Integer numPlansGroupOrganized; // Número de planes organizados con este grupo
 
-    public PersonGroup() {
-        // Constructor vacío
-    }
+
     // Constructor con todos los parámetros
-    public PersonGroup(Person person, Group group, LocalDate registrationDate, Role role, Integer title,
+    public PersonGroup(Person person, escapeGroup escapeGroup, LocalDate registrationDate, Role role, Integer title,
                        LocalDate lastEscape, Integer numEscapesGroup, Integer numEscapesGroupOrganized,
                        Integer numPlansGroup, Integer numPlansGroupOrganized) {
         this.person = person;
-        this.group = group;
+        this.escapeGroup = escapeGroup;
         this.registrationDate = registrationDate;
         this.role = role;
         this.title = title;
@@ -70,6 +68,10 @@ public class PersonGroup {
         this.numEscapesGroupOrganized = numEscapesGroupOrganized;
         this.numPlansGroup = numPlansGroup;
         this.numPlansGroupOrganized = numPlansGroupOrganized;
+    }
+
+    public PersonGroup() {
+        // Constructor vacío
     }
 
     // Getters y Setters
@@ -90,12 +92,12 @@ public class PersonGroup {
         this.person = person;
     }
 
-    public Group getGroup() {
-        return group;
+    public escapeGroup getEscapeGroup() {
+        return escapeGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setEscapeGroup(escapeGroup escapeGroup) {
+        this.escapeGroup = escapeGroup;
     }
 
     public LocalDate getRegistrationDate() {
@@ -163,7 +165,7 @@ public class PersonGroup {
     }
     @Override
     public String toString() {
-        return "PersonGroup [id=" + id + ", person=" + person + ", group=" + group + ", registrationDate="
+        return "PersonGroup [id=" + id + ", person=" + person + ", group=" + escapeGroup + ", registrationDate="
                 + registrationDate + ", role=" + role + ", title=" + title + ", lastEscape=" + lastEscape
                 + ", numEscapesGroup=" + numEscapesGroup + ", numEscapesGroupOrganized=" + numEscapesGroupOrganized
                 + ", numPlansGroup=" + numPlansGroup + ", numPlansGroupOrganized=" + numPlansGroupOrganized + "]";

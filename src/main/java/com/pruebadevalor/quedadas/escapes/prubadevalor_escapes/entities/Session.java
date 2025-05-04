@@ -1,8 +1,6 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +20,8 @@ public class Session {
     private Room room;
 
     @ManyToOne
-    private Group group; // Puede ser null si la sesión no pertenece a ningún grupo
+    @JoinColumn(name = "escape_group_id", nullable = false)
+    private escapeGroup escapeGroup; // Grupo de escape al que pertenece la sesión
 
     @NotNull(message = "Start time cannot be null")
     private LocalDateTime startTime;
@@ -39,20 +38,17 @@ public class Session {
     private String notes;
 
     @ManyToOne(optional = false)
-    private Person organizedBy;
-
-    @OneToMany(mappedBy = "session")
-    private List<PersonSession> personSessions;
+    private Person organizedBy; // Persona que organiza la sesión
 
     // Constructor vacío requerido por JPA
     public Session() {
     }
 
     // Constructor con todos los parámetros
-    public Session(Room room, Group group, LocalDateTime startTime, LocalDateTime endTime,
+    public Session(Room room, escapeGroup escapeGroup, LocalDateTime startTime, LocalDateTime endTime,
                    Integer durationMinutes, String status, String notes, Person organizedBy) {
         this.room = room;
-        this.group = group;
+        this.escapeGroup = escapeGroup;
         this.startTime = startTime;
         this.endTime = endTime;
         this.durationMinutes = durationMinutes;
@@ -79,12 +75,12 @@ public class Session {
         this.room = room;
     }
 
-    public Group getGroup() {
-        return group;
+    public escapeGroup getEscapeGroup() {
+        return escapeGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setEscapeGroup(escapeGroup escapeGroup) {
+        this.escapeGroup = escapeGroup;
     }
 
     public LocalDateTime getStartTime() {
@@ -135,11 +131,18 @@ public class Session {
         this.organizedBy = organizedBy;
     }
 
-    public List<PersonSession> getPersonSessions() {
-        return personSessions;
-    }
-
-    public void setPersonSessions(List<PersonSession> personSessions) {
-        this.personSessions = personSessions;
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + id +
+                ", room=" + room +
+                ", group=" + escapeGroup +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", durationMinutes=" + durationMinutes +
+                ", status='" + status + '\'' +
+                ", notes='" + notes + '\'' +
+                ", organizedBy=" + organizedBy +
+                '}';
     }
 }
