@@ -1,11 +1,13 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.escapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
@@ -34,8 +36,10 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 	public void run (String... args) throws Exception {
 	System.out.println("La aplicación se ha iniciado correctamente.");
 	manyToOne(); // Llamar al método manyToOne para crear la relación entre personas y grupos
+	manyToOneFindByIdClient(); // Llamar al método manyToOneFindByIdClient para buscar una persona por su ID
 	}
 
+	@Transactional
 	public void manyToOne() {
 		
 		Person person = new Person("Sergio", "Martín Tejedor", LocalDate.parse("1988-07-26"), 0, 0, 0, 0,
@@ -80,6 +84,21 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 
 
 
+	}
+
+	@Transactional
+	public void manyToOneFindByIdClient() {
+		// Buscar la persona por su ID
+		Long personId = 1L; // Cambia esto por el ID que quieras buscar
+		Optional<Person> personOptional = personRepository.findById(personId);
+		// Verificar si la persona existe
+		if (personOptional.isPresent()) {
+			Person person = personOptional.orElseThrow();
+			System.out.println("Persona encontrada: " + person.getFirstName() + " " + person.getLastName());
+		} else {
+			System.out.println("Persona no encontrada.");
+		}
+		
 	}
 
 }

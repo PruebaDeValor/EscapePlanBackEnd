@@ -1,5 +1,6 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "github.copilot.advanced": {},
-    "java.jdt.ls.java.home": "C:\\CursoSpringBoot\\jdk-24.0.1"
+    "java.jdt.ls.java.home": "C:\\CursoSpringBoot\\jdk-24.0.1",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

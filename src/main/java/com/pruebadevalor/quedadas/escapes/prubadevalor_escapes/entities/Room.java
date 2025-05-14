@@ -27,6 +27,9 @@ public class Room {
 
     private String imageName; // Nombre del archivo de imagen
 
+    @Size(max = 100, message = "Website URL cannot be longer than 100 characters")
+    private String websiteUrl; // URL del sitio web del local
+
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
     private Location location; // Local en el que se encuentra la escape room
