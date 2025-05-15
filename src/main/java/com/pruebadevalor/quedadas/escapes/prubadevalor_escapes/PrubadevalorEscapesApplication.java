@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.GroupRepository;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.EscapeGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonRepository;
 
@@ -26,7 +26,7 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 	private PersonGroupRepository personGroupRepository;
 
 	@Autowired
-	private GroupRepository groupRepository;
+	private EscapeGroupRepository groupRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrubadevalorEscapesApplication.class, args);

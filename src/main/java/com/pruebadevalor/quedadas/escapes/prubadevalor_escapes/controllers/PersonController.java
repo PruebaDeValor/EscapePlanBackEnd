@@ -62,7 +62,7 @@ public class PersonController {
     }
 
     // Eliminar una persona por ID
-       @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Person person = new Person();
         person.setId(id);
