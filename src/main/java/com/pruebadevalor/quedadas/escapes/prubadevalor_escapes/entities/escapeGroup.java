@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "escape_groups")
-public class escapeGroup {
+public class EscapeGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +39,11 @@ public class escapeGroup {
     private Integer maxAge; // Edad máxima para pertenecer al grupo
 
     // Constructor vacío requerido por JPA
-    public escapeGroup() {
+    public EscapeGroup() {
     }
 
     // Constructor con todos los parámetros
-    public escapeGroup(String name, String description, String baseCity, String logoFileName,
+    public EscapeGroup(String name, String description, String baseCity, String logoFileName,
                  Integer title, Integer minAge, Integer maxAge) {
         this.name = name;
         this.description = description;

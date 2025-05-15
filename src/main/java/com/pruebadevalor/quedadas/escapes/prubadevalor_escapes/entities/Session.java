@@ -21,7 +21,7 @@ public class Session {
 
     @ManyToOne
     @JoinColumn(name = "escape_group_id", nullable = false)
-    private escapeGroup escapeGroup; // Grupo de escape al que pertenece la sesión
+    private EscapeGroup escapeGroup; // Grupo de escape al que pertenece la sesión
 
     @NotNull(message = "Start time cannot be null")
     private LocalDateTime startTime;
@@ -45,7 +45,7 @@ public class Session {
     }
 
     // Constructor con todos los parámetros
-    public Session(Room room, escapeGroup escapeGroup, LocalDateTime startTime, LocalDateTime endTime,
+    public Session(Room room, EscapeGroup escapeGroup, LocalDateTime startTime, LocalDateTime endTime,
                    Integer durationMinutes, String status, String notes, Person organizedBy) {
         this.room = room;
         this.escapeGroup = escapeGroup;
@@ -75,11 +75,11 @@ public class Session {
         this.room = room;
     }
 
-    public escapeGroup getEscapeGroup() {
+    public EscapeGroup getEscapeGroup() {
         return escapeGroup;
     }
 
-    public void setEscapeGroup(escapeGroup escapeGroup) {
+    public void setEscapeGroup(EscapeGroup escapeGroup) {
         this.escapeGroup = escapeGroup;
     }
 

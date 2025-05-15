@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.escapeGroup;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.GroupRepository;
@@ -50,7 +50,7 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 		LocalDate.parse("2025-04-27"), true);
 		personRepository.save(person2); // Guardar la segunda persona
 
-		escapeGroup escapeGroup = new escapeGroup("Grupo de Valor", null, "Madrid", null, null, 28, 45);
+		EscapeGroup escapeGroup = new EscapeGroup("Grupo de Valor", null, "Madrid", null, null, 28, 45);
 		groupRepository.save(escapeGroup); // Guardar el grupo
 		
 		PersonGroup personGroup = new PersonGroup(

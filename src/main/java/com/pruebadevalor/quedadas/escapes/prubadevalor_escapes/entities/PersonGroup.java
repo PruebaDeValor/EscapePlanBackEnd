@@ -18,7 +18,7 @@ public class PersonGroup {
 
     @ManyToOne
     @JoinColumn(name = "escape_group_id", nullable = false)
-    private escapeGroup escapeGroup; // Grupo de escape al que pertenece la persona
+    private EscapeGroup escapeGroup; // Grupo de escape al que pertenece la persona
 
     @NotNull(message = "Registration date cannot be null")
     private LocalDate registrationDate; // Fecha de registro de la persona en el grupo
@@ -55,7 +55,7 @@ public class PersonGroup {
 
 
     // Constructor con todos los parámetros
-    public PersonGroup(Person person, escapeGroup escapeGroup, LocalDate registrationDate, Role role, Integer title,
+    public PersonGroup(Person person, EscapeGroup escapeGroup, LocalDate registrationDate, Role role, Integer title,
                        LocalDate lastEscape, Integer numEscapesGroup, Integer numEscapesGroupOrganized,
                        Integer numPlansGroup, Integer numPlansGroupOrganized) {
         this.person = person;
@@ -92,11 +92,11 @@ public class PersonGroup {
         this.person = person;
     }
 
-    public escapeGroup getEscapeGroup() {
+    public EscapeGroup getEscapeGroup() {
         return escapeGroup;
     }
 
-    public void setEscapeGroup(escapeGroup escapeGroup) {
+    public void setEscapeGroup(EscapeGroup escapeGroup) {
         this.escapeGroup = escapeGroup;
     }
 

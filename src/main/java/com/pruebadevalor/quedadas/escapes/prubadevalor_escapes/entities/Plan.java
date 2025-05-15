@@ -33,7 +33,7 @@ public class Plan {
 
     @ManyToOne
     @JoinColumn(name = "escape_group_id", nullable = true)
-    private escapeGroup escapeGroup;
+    private EscapeGroup escapeGroup;
 
     @Size(max = 255, message = "URL cannot be longer than 255 characters")
     private String url; // URL del plan
@@ -59,7 +59,7 @@ public class Plan {
     }
     // Constructor con todos los parámetros
     public Plan(String name, String shortDescription, String longDescription, Integer minPeople,
-                Integer maxPeople, Person organizer, escapeGroup escapeGroup, String url,
+                Integer maxPeople, Person organizer, EscapeGroup escapeGroup, String url,
                 String googleMapsUrl, BigDecimal price, String imageName, String address) {
         this.name = name;
         this.shortDescription = shortDescription;
@@ -133,11 +133,11 @@ public class Plan {
         this.organizer = organizer;
     }
 
-    public escapeGroup getEscapeGroup() {
+    public EscapeGroup getEscapeGroup() {
         return escapeGroup;
     }
 
-    public void setEscapeGroup(escapeGroup escapeGroup) {
+    public void setEscapeGroup(EscapeGroup escapeGroup) {
         this.escapeGroup = escapeGroup;
     }
 
