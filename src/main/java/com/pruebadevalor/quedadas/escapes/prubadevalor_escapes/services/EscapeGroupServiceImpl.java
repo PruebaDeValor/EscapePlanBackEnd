@@ -13,8 +13,7 @@ import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.Esca
 @Service
 public class EscapeGroupServiceImpl implements EscapeGroupService {
 
-    // Aquí puedes implementar los métodos de la interfaz EscapeGroupService
-    // utilizando el repositorio correspondiente para acceder a la base de datos.
+
     @Autowired
     private EscapeGroupRepository escapeGroupRepository;
     

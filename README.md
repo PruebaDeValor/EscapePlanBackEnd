@@ -90,6 +90,9 @@ Base URL: `/api/persongroups` (pendiente de implementación)
 | DELETE | `/api/persongroups/person/{personId}/group/{groupId}` | Eliminar una relación entre persona y grupo. |
 
 ---
+//Nos faltan entities para favoritos, quiero hacer y encuestas
+
+---
 
 ## Configuración del proyecto
 
