@@ -1,6 +1,6 @@
 # EscapePlan
 
-EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, grupos de escape, salas, sesiones y relaciones entre personas y grupos.
+EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, grupos de escape, salas, sesiones, encuestas y relaciones entre personas y grupos.
 
 ## Tecnologías utilizadas
 
@@ -50,6 +50,19 @@ Base URL: `/api/locations`
 | POST   | `/api/locations`     | Crear una nueva ubicación.               |
 | PUT    | `/api/locations/{id}`| Actualizar una ubicación existente.      |
 | DELETE | `/api/locations/{id}`| Eliminar una ubicación por su ID.        |
+
+---
+
+### **Survey**
+Base URL: `/api/surveys` (pendiente de implementación)
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/surveys`     | Obtener todas las encuestas.             |
+| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
+| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
+| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
+| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
 
 ---
 
@@ -104,7 +117,10 @@ Base URL: `/api/persongroups` (pendiente de implementación)
 
 ---
 
-> **Nos faltan entities para favoritos, quiero hacer y encuestas**
+> **Notas de progreso:**  
+> - Entidad Survey creada con opciones usando `@ElementCollection`.  
+> - Falta implementar endpoints para encuestas, salas, sesiones, planes y relaciones intermedias.  
+> - Pendiente añadir entidades para favoritos y otras funcionalidades avanzadas.
 
 ---
 
@@ -124,17 +140,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ## Próximos pasos
 
-- Implementar los controladores y servicios para las entidades Room, Session, Plan y PersonGroup.
-- Añadir entidades y endpoints para favoritos y encuestas.
-- Mejorar la validación y el manejo de errores.
-- Crear pruebas unitarias e integradas para los endpoints.
-
----
-````---
-
-## Próximos pasos
-
-- Implementar los controladores y servicios para las entidades Room, Session, Plan y PersonGroup.
+- Implementar los controladores y servicios para las entidades Room, Session, Plan, Survey y PersonGroup.
 - Añadir entidades y endpoints para favoritos y encuestas.
 - Mejorar la validación y el manejo de errores.
 - Crear pruebas unitarias e integradas para los endpoints.
