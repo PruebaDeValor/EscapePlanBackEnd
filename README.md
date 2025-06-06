@@ -1,6 +1,6 @@
 # EscapePlan
 
-EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, grupos de escape, salas, sesiones, encuestas y relaciones entre personas y grupos.
+EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, grupos de escape, salas, sesiones, encuestas, favoritos y relaciones entre personas y grupos.
 
 ## Tecnologías utilizadas
 
@@ -105,6 +105,24 @@ Base URL: `/api/plans` (pendiente de implementación)
 
 ---
 
+### **EscapeFavourite**
+Base URL: `/api/escapes/favourites`
+
+| Método | Endpoint                                      | Descripción                                                        |
+|--------|-----------------------------------------------|--------------------------------------------------------------------|
+| GET    | `/api/escapes/favourites`                     | Listar todas las relaciones de favoritos.                          |
+| GET    | `/api/escapes/favourites/{id}`                | Obtener un favorito por su id.                                     |
+| POST   | `/api/escapes/favourites`                     | Añadir un escape favorito para una persona.                        |
+| DELETE | `/api/escapes/favourites/{id}`                | Eliminar un escape favorito por su id.                             |
+| GET    | `/api/escapes/favourites/room/{escapeId}`     | Buscar favorito por id de room (devuelve uno o 404 si no existe).  |
+| GET    | `/api/escapes/favourites/person/id={userId}`  | Listar todos los favoritos de una persona por su id.               |
+
+**Notas:**  
+- Si la persona no existe o no tiene favoritos, el endpoint devuelve una lista vacía.
+- Si el favorito por room no existe, devuelve 404.
+
+---
+
 ### **PersonGroup**
 Base URL: `/api/persongroups` (pendiente de implementación)
 
@@ -119,8 +137,9 @@ Base URL: `/api/persongroups` (pendiente de implementación)
 
 > **Notas de progreso:**  
 > - Entidad Survey creada con opciones usando `@ElementCollection`.  
+> - Añadidos endpoints y lógica para favoritos (EscapeFavourite).  
 > - Falta implementar endpoints para encuestas, salas, sesiones, planes y relaciones intermedias.  
-> - Pendiente añadir entidades para favoritos y otras funcionalidades avanzadas.
+> - Pendiente añadir entidades para funcionalidades avanzadas.
 
 ---
 
