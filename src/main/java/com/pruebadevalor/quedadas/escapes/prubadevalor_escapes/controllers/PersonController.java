@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.PersonService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,12 +49,27 @@ public class PersonController {
         return ResponseEntity.notFound().build();
     }
 
-    // Crear una nueva persona
-    @PostMapping
-    public ResponseEntity<Person> create(@RequestBody Person person) {
-        Person personNew = personService.save(person);
-        return ResponseEntity.status(HttpStatus.CREATED).body(personNew);
+    // Endpoint para buscar una persona por email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email) {
+        Optional<Person> personOptional = personService.findByEmail(email);
+        if (personOptional.isPresent()) {
+            return ResponseEntity.ok(personOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
     }
+
+    // Crear una nueva persona validando el email
+    @PostMapping
+public ResponseEntity<?> create(@Valid @RequestBody Person person) {
+    // Comprobar si ya existe una persona con ese email
+    Optional<Person> existing = personService.findByEmail(person.getEmail());
+    if (existing.isPresent()) {
+        return ResponseEntity.badRequest().body("El email ya está registrado.");
+    }
+    Person personNew = personService.save(person);
+    return ResponseEntity.status(HttpStatus.CREATED).body(personNew);
+}
 
     // Actualizar una persona existente
     @PutMapping("/{id}")

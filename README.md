@@ -17,14 +17,18 @@ EscapePlan es una aplicación para gestionar planes de Escape Room. Permite admi
 ### **Person**
 Base URL: `/api/persons`
 
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/persons`     | Obtener todas las personas.              |
-| GET    | `/api/persons/{id}`| Obtener una persona por su ID.           |
-| POST   | `/api/persons`     | Crear una nueva persona.                 |
-| PUT    | `/api/persons/{id}`| Actualizar una persona existente.        |
-| DELETE | `/api/persons/{id}`| Eliminar una persona por su ID.          |
+| Método | Endpoint                | Descripción                                         |
+|--------|-------------------------|-----------------------------------------------------|
+| GET    | `/api/persons`          | Obtener todas las personas.                         |
+| GET    | `/api/persons/{id}`     | Obtener una persona por su ID.                      |
+| GET    | `/api/persons/email/{email}` | Obtener una persona por su email.             |
+| POST   | `/api/persons`          | Crear una nueva persona (email único y validado).   |
+| PUT    | `/api/persons/{id}`     | Actualizar una persona existente.                   |
+| DELETE | `/api/persons/{id}`     | Eliminar una persona por su ID.                     |
 
+**Notas:**
+- El campo `email` es obligatorio, debe ser válido y único.
+- Si intentas crear una persona con un email ya registrado, se devuelve un error 400.
 ---
 
 ### **EscapeGroup**
