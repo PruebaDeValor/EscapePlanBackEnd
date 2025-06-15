@@ -41,50 +41,55 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 
 	@Transactional
 	public void manyToOne() {
-		
-		Person person = new Person("Sergio", "Martín Tejedor", LocalDate.parse("1988-07-26"), 0, 0, 0, 0,
-		LocalDate.parse("2025-04-27"), true);
-		personRepository.save(person);
+    // Persona 1
+    Person person = new Person("Sergio", "Martín Tejedor", LocalDate.parse("1988-07-26"), 0, 0, 0, 0,
+        LocalDate.parse("2025-04-27"), true, "semate2607@gmail.com");
+    Optional<Person> existingPerson = personRepository.findByEmail(person.getEmail());
+    if (existingPerson.isEmpty()) {
+        personRepository.save(person);
+    } else {
+        person = existingPerson.get();
+    }
 
-		Person person2 = new Person("Victoria", "Paremud", LocalDate.parse("1993-10-19"), 0, 0, 0, 0,
-		LocalDate.parse("2025-04-27"), true);
-		personRepository.save(person2); // Guardar la segunda persona
+    // Persona 2
+    Person person2 = new Person("Victoria", "Paremud", LocalDate.parse("1993-10-19"), 0, 0, 0, 0,
+        LocalDate.parse("2025-04-27"), true, "partoria@gmail.com");
+    Optional<Person> existingPerson2 = personRepository.findByEmail(person2.getEmail());
+    if (existingPerson2.isEmpty()) {
+        personRepository.save(person2);
+    } else {
+        person2 = existingPerson2.get();
+    }
 
-		EscapeGroup escapeGroup = new EscapeGroup("Grupo de Valor", null, "Madrid", null, null, 28, 45);
-		groupRepository.save(escapeGroup); // Guardar el grupo
-		
-		PersonGroup personGroup = new PersonGroup(
-			person,
-			escapeGroup,
-			LocalDate.parse("2025-04-27"), // Fecha de registro
-			PersonGroup.Role.ADMIN,        // Rol ADMIN del enumerado
-			null,                             // Título numérico
-			LocalDate.parse("2025-04-26"), // Fecha del último escape
-			0,                             // Número de escapes realizados con el grupo
-			0,                             // Número de escapes organizados con el grupo
-			0,                             // Número de planes realizados con el grupo
-			0                              // Número de planes organizados con el grupo
-		);
-		personGroupRepository.save(personGroup); // Guardar la relación para la primera persona
+    // Grupo
+    EscapeGroup escapeGroup = new EscapeGroup("Grupo de Valor", null, "Madrid", null, null, 28, 45);
+    groupRepository.save(escapeGroup);
 
-		PersonGroup personGroup2 = new PersonGroup(
-			person2,
-			escapeGroup,
-			LocalDate.parse("2025-04-27"), // Fecha de registro
-			PersonGroup.Role.MEMBER,        // Rol MEMBER del enumerado
-			null,                             // Título numérico
-			LocalDate.parse("2025-04-26"), // Fecha del último escape
-			0,                             // Número de escapes realizados con el grupo
-			0,                             // Número de escapes organizados con el grupo
-			0,                             // Número de planes realizados con el grupo
-			0                              // Número de planes organizados con el grupo
-		);
-		PersonGroup personGroupDB = personGroupRepository.save(personGroup2);
-		System.out.println(personGroupDB); // Guardar la relación para la segunda persona
+    // Relación persona-grupo para la primera persona
+    PersonGroup personGroup = new PersonGroup(
+        person,
+        escapeGroup,
+        LocalDate.parse("2025-04-27"),
+        PersonGroup.Role.ADMIN,
+        null,
+        LocalDate.parse("2025-04-26"),
+        0, 0, 0, 0
+    );
+    personGroupRepository.save(personGroup);
 
-
-
-	}
+    // Relación persona-grupo para la segunda persona
+    PersonGroup personGroup2 = new PersonGroup(
+        person2,
+        escapeGroup,
+        LocalDate.parse("2025-04-27"),
+        PersonGroup.Role.MEMBER,
+        null,
+        LocalDate.parse("2025-04-26"),
+        0, 0, 0, 0
+    );
+    PersonGroup personGroupDB = personGroupRepository.save(personGroup2);
+    System.out.println(personGroupDB);
+}
 
 	@Transactional
 	public void manyToOneFindByIdClient() {

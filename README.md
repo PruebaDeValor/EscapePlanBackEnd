@@ -1,6 +1,6 @@
 # EscapePlan
 
-EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, grupos de escape, salas, sesiones, encuestas, favoritos y relaciones entre personas y grupos.
+EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, usuarios, roles, grupos de escape, salas, sesiones, encuestas, favoritos y relaciones entre personas y grupos.
 
 ## Tecnologías utilizadas
 
@@ -9,17 +9,33 @@ EscapePlan es una aplicación para gestionar planes de Escape Room. Permite admi
 - **Maven** para la gestión de dependencias
 - **MySQL** como base de datos
 - **Jakarta Validation** para validaciones de entidades
+- **Spring Security** para autenticación y roles
+
+---
+
+## Configuración
+
+Configura tu base de datos en `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/db_escape_plan
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+```
 
 ---
 
 ## Endpoints de la API
 
-### **Person**
-Base URL: `/api/persons`
+### Personas (`/api/persons`)
 
 | Método | Endpoint                | Descripción                                         |
 |--------|-------------------------|-----------------------------------------------------|
-| GET    | `/api/persons`          | Obtener todas las personas.                         |
+| GET    | `/api/persons`          | Listar todas las personas.                          |
 | GET    | `/api/persons/{id}`     | Obtener una persona por su ID.                      |
 | GET    | `/api/persons/email/{email}` | Obtener una persona por su email.             |
 | POST   | `/api/persons`          | Crear una nueva persona (email único y validado).   |
@@ -29,14 +45,36 @@ Base URL: `/api/persons`
 **Notas:**
 - El campo `email` es obligatorio, debe ser válido y único.
 - Si intentas crear una persona con un email ya registrado, se devuelve un error 400.
+
 ---
 
-### **EscapeGroup**
-Base URL: `/api/escapegroup`
+### Usuarios (`/api/users`)
+
+| Método | Endpoint           | Descripción                                         |
+|--------|--------------------|-----------------------------------------------------|
+| GET    | `/api/users`       | Listar todos los usuarios.                          |
+| POST   | `/api/users`       | Crear un nuevo usuario (username único y validado). |
+
+**Notas:**
+- El campo `username` es obligatorio, debe ser válido y único.
+- El campo `password` se almacena cifrado.
+- Al crear un usuario, se asigna el rol `ROLE_USER` por defecto y `ROLE_ADMIN` si el campo `admin` es `true`.
+- Si intentas crear un usuario con un username ya registrado, se devuelve un error 400.
+
+---
+
+### Roles
+
+- Los roles se gestionan automáticamente al crear usuarios.
+- Puedes extender la API para exponer endpoints de roles si lo necesitas.
+
+---
+
+### Grupos de Escape (`/api/escapegroup`)
 
 | Método | Endpoint               | Descripción                              |
 |--------|------------------------|------------------------------------------|
-| GET    | `/api/escapegroup`     | Obtener todos los grupos de escape.      |
+| GET    | `/api/escapegroup`     | Listar todos los grupos de escape.       |
 | GET    | `/api/escapegroup/{id}`| Obtener un grupo de escape por su ID.    |
 | POST   | `/api/escapegroup`     | Crear un nuevo grupo de escape.          |
 | PUT    | `/api/escapegroup/{id}`| Actualizar un grupo de escape existente. |
@@ -44,73 +82,7 @@ Base URL: `/api/escapegroup`
 
 ---
 
-### **Location**
-Base URL: `/api/locations`
-
-| Método | Endpoint             | Descripción                              |
-|--------|----------------------|------------------------------------------|
-| GET    | `/api/locations`     | Obtener todas las ubicaciones.           |
-| GET    | `/api/locations/{id}`| Obtener una ubicación por su ID.         |
-| POST   | `/api/locations`     | Crear una nueva ubicación.               |
-| PUT    | `/api/locations/{id}`| Actualizar una ubicación existente.      |
-| DELETE | `/api/locations/{id}`| Eliminar una ubicación por su ID.        |
-
----
-
-### **Survey**
-Base URL: `/api/surveys` (pendiente de implementación)
-
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/surveys`     | Obtener todas las encuestas.             |
-| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
-| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
-| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
-| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
-
----
-
-### **Room**
-Base URL: `/api/rooms` (pendiente de implementación)
-
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/rooms`       | Obtener todas las salas de escape.       |
-| GET    | `/api/rooms/{id}`  | Obtener una sala de escape por su ID.    |
-| POST   | `/api/rooms`       | Crear una nueva sala de escape.          |
-| PUT    | `/api/rooms/{id}`  | Actualizar una sala de escape existente. |
-| DELETE | `/api/rooms/{id}`  | Eliminar una sala de escape por su ID.   |
-
----
-
-### **Session**
-Base URL: `/api/sessions` (pendiente de implementación)
-
-| Método | Endpoint             | Descripción                              |
-|--------|----------------------|------------------------------------------|
-| GET    | `/api/sessions`      | Obtener todas las sesiones.              |
-| GET    | `/api/sessions/{id}` | Obtener una sesión por su ID.            |
-| POST   | `/api/sessions`      | Crear una nueva sesión.                  |
-| PUT    | `/api/sessions/{id}` | Actualizar una sesión existente.         |
-| DELETE | `/api/sessions/{id}` | Eliminar una sesión por su ID.           |
-
----
-
-### **Plan**
-Base URL: `/api/plans` (pendiente de implementación)
-
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/plans`       | Obtener todos los planes.                |
-| GET    | `/api/plans/{id}`  | Obtener un plan por su ID.               |
-| POST   | `/api/plans`       | Crear un nuevo plan.                     |
-| PUT    | `/api/plans/{id}`  | Actualizar un plan existente.            |
-| DELETE | `/api/plans/{id}`  | Eliminar un plan por su ID.              |
-
----
-
-### **EscapeFavourite**
-Base URL: `/api/escapes/favourites`
+### Favoritos de Escape (`/api/escapes/favourites`)
 
 | Método | Endpoint                                      | Descripción                                                        |
 |--------|-----------------------------------------------|--------------------------------------------------------------------|
@@ -127,8 +99,67 @@ Base URL: `/api/escapes/favourites`
 
 ---
 
-### **PersonGroup**
-Base URL: `/api/persongroups` (pendiente de implementación)
+### Ubicaciones (`/api/locations`)
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/locations`   | Listar todas las ubicaciones.            |
+| GET    | `/api/locations/{id}` | Obtener una ubicación por su ID.       |
+| POST   | `/api/locations`   | Crear una nueva ubicación.               |
+| PUT    | `/api/locations/{id}` | Actualizar una ubicación existente.    |
+| DELETE | `/api/locations/{id}` | Eliminar una ubicación por su ID.      |
+
+---
+
+### Planes (`/api/plans`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/plans`       | Listar todos los planes.                 |
+| GET    | `/api/plans/{id}`  | Obtener un plan por su ID.               |
+| POST   | `/api/plans`       | Crear un nuevo plan.                     |
+| PUT    | `/api/plans/{id}`  | Actualizar un plan existente.            |
+| DELETE | `/api/plans/{id}`  | Eliminar un plan por su ID.              |
+
+---
+
+### Salas (`/api/rooms`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/rooms`       | Listar todas las salas.                  |
+| GET    | `/api/rooms/{id}`  | Obtener una sala por su ID.              |
+| POST   | `/api/rooms`       | Crear una nueva sala.                    |
+| PUT    | `/api/rooms/{id}`  | Actualizar una sala existente.           |
+| DELETE | `/api/rooms/{id}`  | Eliminar una sala por su ID.             |
+
+---
+
+### Sesiones (`/api/sessions`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/sessions`    | Listar todas las sesiones.               |
+| GET    | `/api/sessions/{id}` | Obtener una sesión por su ID.           |
+| POST   | `/api/sessions`    | Crear una nueva sesión.                  |
+| PUT    | `/api/sessions/{id}` | Actualizar una sesión existente.        |
+| DELETE | `/api/sessions/{id}` | Eliminar una sesión por su ID.          |
+
+---
+
+### Encuestas (`/api/surveys`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/surveys`     | Listar todas las encuestas.              |
+| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
+| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
+| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
+| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
+
+---
+
+### PersonGroup (`/api/persongroups`) *(estructura sugerida, implementar controlador)*
 
 | Método | Endpoint                                  | Descripción                                      |
 |--------|------------------------------------------|--------------------------------------------------|
@@ -139,33 +170,17 @@ Base URL: `/api/persongroups` (pendiente de implementación)
 
 ---
 
-> **Notas de progreso:**  
-> - Entidad Survey creada con opciones usando `@ElementCollection`.  
-> - Añadidos endpoints y lógica para favoritos (EscapeFavourite).  
-> - Falta implementar endpoints para encuestas, salas, sesiones, planes y relaciones intermedias.  
-> - Pendiente añadir entidades para funcionalidades avanzadas.
-
----
-
-## Configuración del proyecto
-
-### **Base de datos**
-El proyecto utiliza MySQL como base de datos. Asegúrate de configurar las credenciales en el archivo `application.properties`:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/escapeplan
-spring.datasource.username=tu_usuario
-spring.datasource.password=tu_contraseña
-spring.jpa.hibernate.ddl-auto=update
-```
-
----
-
 ## Próximos pasos
 
 - Implementar los controladores y servicios para las entidades Room, Session, Plan, Survey y PersonGroup.
-- Añadir entidades y endpoints para favoritos y encuestas.
-- Mejorar la validación y el manejo de errores.
-- Crear pruebas unitarias e integradas para los endpoints.
+- Añadir endpoints completos para encuestas (Survey), incluyendo creación, edición y votación.
+- Mejorar la validación y el manejo de errores en todos los endpoints.
+- Añadir pruebas unitarias e integradas para los endpoints y servicios.
+- Documentar la API con Swagger/OpenAPI.
+- Optimizar la gestión de relaciones y restricciones de unicidad en entidades clave.
+- Añadir paginación y filtros en los listados principales.
+- Mejorar la seguridad y autenticación de la API.
 
 ---
+
+¿Quieres que te ayude a generar la estructura de algún controlador o endpoint que falte?

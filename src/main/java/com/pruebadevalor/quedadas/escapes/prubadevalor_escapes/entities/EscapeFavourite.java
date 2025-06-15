@@ -3,6 +3,7 @@ package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -14,11 +15,12 @@ public class EscapeFavourite {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id; // Identificador único de la entrada de favoritos
 
-    @NotBlank(message = "Room cannot be empty")
-    private Room room;
-
-    @NotBlank(message = "Person cannot be empty")
+    @ManyToOne(optional = false)
     private Person person; // Persona que ha marcado el escape como favorito
+
+    @ManyToOne(optional = false)
+    private Room room;
+    
     // Constructor vacío requerido por JPA
     public EscapeFavourite() {
     }

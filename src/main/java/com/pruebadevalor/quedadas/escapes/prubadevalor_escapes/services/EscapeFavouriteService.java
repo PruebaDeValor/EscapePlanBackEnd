@@ -17,7 +17,7 @@ public interface EscapeFavouriteService {
 
     Optional<EscapeFavourite> delete(EscapeFavourite escapeFavourite);
 
-    EscapeFavourite findByRoomId(Long escapeId);
+    Optional<EscapeFavourite> findByRoomId(Long escapeId);
 
     List<EscapeFavourite> findByPerson(Long userId);
 }

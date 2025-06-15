@@ -7,12 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeFavourite;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Room;
 
 public interface EscapeFavouriteRepository extends CrudRepository<EscapeFavourite, Long> {
 
     List<EscapeFavourite> findByPerson(Person person);
 
-    Optional<EscapeFavourite> findByRoomId(Long escapeId);
+    Optional<EscapeFavourite> findByRoom(Room room);
 
     
 

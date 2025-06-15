@@ -32,6 +32,11 @@ public class Person {
 
     private LocalDate registrationDate; // Fecha de registro en la aplicación
 
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email should be valid")
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @Column(name = "is_premium", columnDefinition = "TINYINT(1)")
     private boolean isPremium; // Indica si la persona es premium o no
     
@@ -43,7 +48,7 @@ public class Person {
     // Constructor con parámetros
     public Person(String firstName, String lastName, LocalDate birthDate, Integer numEscapes,
                   Integer numEscapesOrganized, Integer numPlans, Integer numPlansOrganized,
-                  LocalDate registrationDate, boolean isPremium) {
+                  LocalDate registrationDate, boolean isPremium,String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -53,6 +58,7 @@ public class Person {
         this.numPlansOrganized = numPlansOrganized;
         this.registrationDate = registrationDate;
         this.isPremium = isPremium;
+        this.email = email;
     }
 
     // Getters y setters
@@ -138,6 +144,14 @@ public class Person {
         this.isPremium = isPremium;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     // Método toString para depuración
     @Override
     public String toString() {
@@ -152,6 +166,7 @@ public class Person {
                 ", numPlansOrganized=" + numPlansOrganized +
                 ", registrationDate=" + registrationDate +
                 ", isPremium=" + isPremium +
+                ", email='" + email + '\'' +
                 '}';
     }            
 }

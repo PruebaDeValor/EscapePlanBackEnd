@@ -17,6 +17,8 @@ public interface PersonService {
 
     Optional<Person> delete(Person person);
 
+    Optional<Person> findByEmail(String email);
+
 
     
 }
