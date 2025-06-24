@@ -29,13 +29,18 @@ public class PersonGroup {
         MEMBER,
         CANDIDATE,//A prueba
         EXTERNAL,//hace planes con el grupo, pero no escapes, o al menos no de forma frecuente.
-        EDITOR,
+        EDITOR
+        
+    }
+    //rol del usuario
+
+    public enum Status {
+        ACTIVE,
         AWAY,
         INVITED,//invitado al grupo, aún no ha aceptado la invitación
         PENDING,//ha solicitado unirse al grupo, pero aún no ha sido aceptado
         BANNED
     }
-    //rol del usuario
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Role cannot be null")
@@ -53,11 +58,14 @@ public class PersonGroup {
 
     private Integer numPlansGroupOrganized; // Número de planes organizados con este grupo
 
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status cannot be null")
+    private Status status; // Estado de la persona en el grupo (puede ser ACTIVE, AWAY, INVITED, PENDING, BANNED)
 
     // Constructor con todos los parámetros
     public PersonGroup(Person person, EscapeGroup escapeGroup, LocalDate registrationDate, Role role, Integer title,
                        LocalDate lastEscape, Integer numEscapesGroup, Integer numEscapesGroupOrganized,
-                       Integer numPlansGroup, Integer numPlansGroupOrganized) {
+                       Integer numPlansGroup, Integer numPlansGroupOrganized, Status status) {
         this.person = person;
         this.escapeGroup = escapeGroup;
         this.registrationDate = registrationDate;
@@ -73,8 +81,6 @@ public class PersonGroup {
     public PersonGroup() {
         // Constructor vacío
     }
-
-    // Getters y Setters
 
     public Long getId() {
         return id;
@@ -163,13 +169,20 @@ public class PersonGroup {
     public void setNumPlansGroupOrganized(Integer numPlansGroupOrganized) {
         this.numPlansGroupOrganized = numPlansGroupOrganized;
     }
-    @Override
-    public String toString() {
-        return "PersonGroup [id=" + id + ", person=" + person + ", group=" + escapeGroup + ", registrationDate="
-                + registrationDate + ", role=" + role + ", title=" + title + ", lastEscape=" + lastEscape
-                + ", numEscapesGroup=" + numEscapesGroup + ", numEscapesGroupOrganized=" + numEscapesGroupOrganized
-                + ", numPlansGroup=" + numPlansGroup + ", numPlansGroupOrganized=" + numPlansGroupOrganized + "]";
+
+    public Status getStatus() {
+        return status;
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    // Getters y Setters
+
+    
+
+   
 
     
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup.Role;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.EscapeGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonRepository;
@@ -70,11 +71,13 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
         person,
         escapeGroup,
         LocalDate.parse("2025-04-27"),
-        PersonGroup.Role.ADMIN,
+        null,
         null,
         LocalDate.parse("2025-04-26"),
-        0, 0, 0, 0
+        0, 0, 0, 0, null
     );
+    personGroup.setRole(PersonGroup.Role.ADMIN);
+    personGroup.setStatus(PersonGroup.Status.ACTIVE);
     personGroupRepository.save(personGroup);
 
     // Relación persona-grupo para la segunda persona
@@ -82,11 +85,13 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
         person2,
         escapeGroup,
         LocalDate.parse("2025-04-27"),
-        PersonGroup.Role.MEMBER,
+        null,
         null,
         LocalDate.parse("2025-04-26"),
-        0, 0, 0, 0
+        0, 0, 0, 0, null
     );
+    personGroup2.setRole(PersonGroup.Role.ADMIN);
+    personGroup2.setStatus(PersonGroup.Status.ACTIVE);
     PersonGroup personGroupDB = personGroupRepository.save(personGroup2);
     System.out.println(personGroupDB);
 }
