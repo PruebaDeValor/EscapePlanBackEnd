@@ -182,5 +182,3 @@ spring.jpa.hibernate.ddl-auto=update
 - Mejorar la seguridad y autenticación de la API.
 
 ---
-
-¿Quieres que te ayude a generar la estructura de algún controlador o endpoint que falte?
