@@ -94,11 +94,44 @@ spring.jpa.show-sql=true
 
 ### Usuarios (`/api/users`)
 
-| Método | Endpoint           | Descripción                                         |
-|--------|--------------------|-----------------------------------------------------|
-| GET    | `/api/users`       | Listar usuarios.                                    |
-| POST   | `/api/users`       | Crear usuario (username único, password cifrada).   |
-| POST   | `/api/users/login` | Login y obtención de JWT.                           |
+| Método | Endpoint                         | Descripción                                                      |
+|--------|----------------------------------|------------------------------------------------------------------|
+| GET    | `/api/users`                     | Listar usuarios.                                                 |
+| POST   | `/api/users`                     | Crear usuario (username único, password cifrada).                |
+| POST   | `/api/users/login`               | Login y obtención de JWT.                                        |
+| POST   | `/api/users/register`            | Registro rápido de usuario no admin.               |
+| PUT    | `/api/users/{id}`                | Actualizar datos de un usuario existente.                        |
+| PUT    | `/api/users/{userId}/person/{personId}` | Asociar una persona existente a un usuario existente.     |
+
+---
+
+#### Ejemplo de actualización de usuario
+
+**PUT** `/api/users/1`
+```json
+{
+  "username": "nuevoNombre",
+  "password": "nuevaClave",
+  "admin": false
+}
+```
+
+#### Ejemplo de asociación de persona a usuario
+
+**PUT** `/api/users/1/person/5`
+
+No requiere body. Asocia la persona con ID 5 al usuario con ID 1.
+
+#### Ejemplo de registro rápido
+
+**POST** `/api/users/register`
+```json
+{
+  "username": "usuario2",
+  "password": "clave5678"
+}
+```
+Este endpoint crea un usuario con rol de usuario normal (`admin: false`).
 
 ---
 
@@ -229,9 +262,7 @@ Authorization: Bearer <token>
 
 ---
 
-<<<<<<< HEAD
-**¿Dudas o sugerencias?**  
-Abre un issue en el repositorio o contacta con el autor.
+
 =======
 ### Encuestas (`/api/surveys`) *(estructura sugerida, implementar controlador)*
 
@@ -267,5 +298,3 @@ Abre un issue en el repositorio o contacta con el autor.
 - Añadir paginación y filtros en los listados principales.
 - Mejorar la seguridad y autenticación de la API.
 
----
->>>>>>> a98f54fb890e68929d9c41ab8e1e8e9c534985fa
