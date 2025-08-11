@@ -229,5 +229,43 @@ Authorization: Bearer <token>
 
 ---
 
+<<<<<<< HEAD
 **¿Dudas o sugerencias?**  
 Abre un issue en el repositorio o contacta con el autor.
+=======
+### Encuestas (`/api/surveys`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint           | Descripción                              |
+|--------|--------------------|------------------------------------------|
+| GET    | `/api/surveys`     | Listar todas las encuestas.              |
+| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
+| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
+| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
+| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
+
+---
+
+### PersonGroup (`/api/persongroups`) *(estructura sugerida, implementar controlador)*
+
+| Método | Endpoint                                  | Descripción                                      |
+|--------|------------------------------------------|--------------------------------------------------|
+| GET    | `/api/persongroups/person/{personId}`     | Obtener todos los grupos de una persona.         |
+| GET    | `/api/persongroups/group/{groupId}`       | Obtener todas las personas de un grupo.          |
+| POST   | `/api/persongroups`                      | Crear una relación entre persona y grupo.        |
+| DELETE | `/api/persongroups/person/{personId}/group/{groupId}` | Eliminar una relación entre persona y grupo. |
+
+---
+
+## Próximos pasos
+
+- Implementar los controladores y servicios para las entidades Room, Session, Plan, Survey y PersonGroup.
+- Añadir endpoints completos para encuestas (Survey), incluyendo creación, edición y votación.
+- Mejorar la validación y el manejo de errores en todos los endpoints.
+- Añadir pruebas unitarias e integradas para los endpoints y servicios.
+- Documentar la API con Swagger/OpenAPI.
+- Optimizar la gestión de relaciones y restricciones de unicidad en entidades clave.
+- Añadir paginación y filtros en los listados principales.
+- Mejorar la seguridad y autenticación de la API.
+
+---
+>>>>>>> a98f54fb890e68929d9c41ab8e1e8e9c534985fa
