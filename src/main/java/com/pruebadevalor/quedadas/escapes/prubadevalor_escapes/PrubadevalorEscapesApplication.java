@@ -12,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup.Role;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.User;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.EscapeGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonRepository;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.UserRepository;
 
 @SpringBootApplication
 public class PrubadevalorEscapesApplication implements CommandLineRunner {
@@ -28,6 +29,9 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 
 	@Autowired
 	private EscapeGroupRepository groupRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrubadevalorEscapesApplication.class, args);
@@ -43,14 +47,21 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 	@Transactional
 	public void manyToOne() {
     // Persona 1
+    Long userId = 17L; // Cambia esto por el ID que quieras buscar
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
     Person person = new Person("Sergio", "Martín Tejedor", LocalDate.parse("1988-07-26"), 0, 0, 0, 0,
         LocalDate.parse("2025-04-27"), true, "semate2607@gmail.com");
     Optional<Person> existingPerson = personRepository.findByEmail(person.getEmail());
     if (existingPerson.isEmpty()) {
         personRepository.save(person);
+        user.setPerson(person);
+        userRepository.save(user); // Guardar el usuario con la relación a la persona
     } else {
         person = existingPerson.get();
     }
+
+
 
     // Persona 2
     Person person2 = new Person("Victoria", "Paremud", LocalDate.parse("1993-10-19"), 0, 0, 0, 0,

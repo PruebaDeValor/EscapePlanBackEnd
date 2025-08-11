@@ -1,6 +1,11 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.validation.ExistsByUsername;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Table(name = "users")
@@ -24,15 +31,18 @@ public class User {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@ExistsByUsername
 @Column(unique = true)
 @NotBlank
-@Size(min = 4, max = 15, message = "El nombre de usuario debe tener entre 4 y 15 caracteres")
+@Size(min = 4, max = 25, message = "El nombre de usuario debe tener entre 4 y 25 caracteres")
 private String username;
 
 @NotBlank
-@Size(min = 4, max = 15, message = "La contraseña debe tener entre 4 y 15 caracteres")
+@Size(min = 4, max = 100, message = "La contraseña debe tener entre 4 y 100 caracteres")
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 private String password;
 
+@JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
 @ManyToMany
 @JoinTable(
         name = "users_roles",
@@ -42,8 +52,35 @@ private String password;
 )
 private List<Role> roles;
 
+@OneToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+
+public User() {
+    roles = new ArrayList<>();
+}
+
+
+
+private boolean enabled;
+
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 @Transient
 private boolean admin;
+
+@PrePersist
+public void prePersist() {
+    enabled = true; // Por defecto, los usuarios están habilitados al crearlos
+    }
+
+public boolean isEnabled() {
+    return enabled;
+}
+
+public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+}
 
 public Long getId() {
     return id;
@@ -79,11 +116,49 @@ public void setRoles(List<Role> roles) {
 
 
 public boolean isAdmin() {
-    return roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    return admin;
 }
 
 public void setAdmin(boolean admin) {
     this.admin = admin;
+}
+
+public Person getPerson() {
+        return person;
+    }
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+@Override
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((username == null) ? 0 : username.hashCode());
+    return result;
+}
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+        return true;
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    User other = (User) obj;
+    if (id == null) {
+        if (other.id != null)
+            return false;
+    } else if (!id.equals(other.id))
+        return false;
+    if (username == null) {
+        if (other.username != null)
+            return false;
+    } else if (!username.equals(other.username))
+        return false;
+    return true;
 }
 
 

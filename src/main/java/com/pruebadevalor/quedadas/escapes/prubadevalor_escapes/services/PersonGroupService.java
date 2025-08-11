@@ -3,8 +3,6 @@ package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.access.method.P;
-
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
 
 public interface PersonGroupService {

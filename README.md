@@ -1,15 +1,53 @@
-# EscapePlan
+# EscapePlan (prubadevalor-escapes)
 
-EscapePlan es una aplicación para gestionar planes de Escape Room. Permite administrar personas, usuarios, roles, grupos de escape, salas, sesiones, encuestas, favoritos y relaciones entre personas y grupos.
+Backend para gestión de planes de Escape Room, usuarios, grupos, salas, sesiones, encuestas y favoritos.  
+Desarrollado en **Spring Boot 3**, con autenticación JWT, roles, validaciones y arquitectura en capas.
 
-## Tecnologías utilizadas
+---
 
-- **Java 24** (JDK 24.0.1)
+## Tabla de Contenidos
+
+- [Tecnologías](#tecnologías)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Configuración](#configuración)
+- [Seguridad y Autenticación](#seguridad-y-autenticación)
+- [CORS](#cors)
+- [Principales Endpoints](#principales-endpoints)
+- [Relaciones entre entidades](#relaciones-entre-entidades)
+- [Ejemplos de uso de endpoints](#ejemplos-de-uso-de-endpoints)
+- [Recomendaciones para frontend y app móvil](#recomendaciones-para-frontend-y-app-móvil)
+- [Próximos pasos y mejoras](#próximos-pasos-y-mejoras)
+
+---
+
+## Tecnologías
+
+- **Java 24**
 - **Spring Boot 3.4.5**
-- **Maven** para la gestión de dependencias
-- **MySQL** como base de datos
-- **Jakarta Validation** para validaciones de entidades
-- **Spring Security** para autenticación y roles
+- **Spring Security (JWT)**
+- **MySQL**
+- **Maven**
+- **Jakarta Validation**
+- **JUnit** para tests
+
+---
+
+## Estructura del Proyecto
+
+```
+src/
+ └── main/
+     ├── java/com/pruebadevalor/quedadas/escapes/prubadevalor_escapes/
+     │    ├── controllers/   # Controladores REST
+     │    ├── entities/      # Entidades JPA
+     │    ├── repositories/  # Acceso a datos
+     │    ├── security/      # Configuración de seguridad y filtros JWT
+     │    ├── services/      # Lógica de negocio
+     │    └── validation/    # Validaciones personalizadas
+     └── resources/
+          ├── application.properties
+          └── import.sql
+```
 
 ---
 
@@ -21,166 +59,175 @@ Configura tu base de datos en `src/main/resources/application.properties`:
 spring.datasource.url=jdbc:mysql://localhost:3306/db_escape_plan
 spring.datasource.username=tu_usuario
 spring.datasource.password=tu_contraseña
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 ```
 
----
-
-## Endpoints de la API
-
-### Personas (`/api/persons`)
-
-| Método | Endpoint                | Descripción                                         |
-|--------|-------------------------|-----------------------------------------------------|
-| GET    | `/api/persons`          | Listar todas las personas.                          |
-| GET    | `/api/persons/{id}`     | Obtener una persona por su ID.                      |
-| GET    | `/api/persons/email/{email}` | Obtener una persona por su email.             |
-| POST   | `/api/persons`          | Crear una nueva persona (email único y validado).   |
-| PUT    | `/api/persons/{id}`     | Actualizar una persona existente.                   |
-| DELETE | `/api/persons/{id}`     | Eliminar una persona por su ID.                     |
-
-**Notas:**
-- El campo `email` es obligatorio, debe ser válido y único.
-- Si intentas crear una persona con un email ya registrado, se devuelve un error 400.
+- **Roles iniciales:**  
+  Asegúrate de tener los roles `ROLE_USER` y `ROLE_ADMIN` en la tabla `roles`.
 
 ---
+
+## Seguridad y Autenticación
+
+- **JWT:**  
+  El backend emite y valida tokens JWT para proteger los endpoints.
+- **Roles:**  
+  Soporta roles `ROLE_USER` y `ROLE_ADMIN` para autorización granular.
+- **Contraseñas:**  
+  Se almacenan cifradas con BCrypt.
+- **Endpoints públicos:**  
+  Registro y login de usuario.
+- **Endpoints protegidos:**  
+  Requieren JWT en la cabecera `Authorization: Bearer <token>`.
+
+---
+
+## CORS
+
+- **Configurado para permitir todos los orígenes en desarrollo** (`*`).
+- Para producción, modifica en `SpringSecurityConfig.java` los orígenes permitidos.
+
+---
+
+## Principales Endpoints
 
 ### Usuarios (`/api/users`)
 
 | Método | Endpoint           | Descripción                                         |
 |--------|--------------------|-----------------------------------------------------|
-| GET    | `/api/users`       | Listar todos los usuarios.                          |
-| POST   | `/api/users`       | Crear un nuevo usuario (username único y validado). |
-
-**Notas:**
-- El campo `username` es obligatorio, debe ser válido y único.
-- El campo `password` se almacena cifrado.
-- Al crear un usuario, se asigna el rol `ROLE_USER` por defecto y `ROLE_ADMIN` si el campo `admin` es `true`.
-- Si intentas crear un usuario con un username ya registrado, se devuelve un error 400.
+| GET    | `/api/users`       | Listar usuarios.                                    |
+| POST   | `/api/users`       | Crear usuario (username único, password cifrada).   |
+| POST   | `/api/users/login` | Login y obtención de JWT.                           |
 
 ---
 
-### Roles
+### Personas (`/api/persons`)
 
-- Los roles se gestionan automáticamente al crear usuarios.
-- Puedes extender la API para exponer endpoints de roles si lo necesitas.
-
----
-
-### Grupos de Escape (`/api/escapegroup`)
-
-| Método | Endpoint               | Descripción                              |
-|--------|------------------------|------------------------------------------|
-| GET    | `/api/escapegroup`     | Listar todos los grupos de escape.       |
-| GET    | `/api/escapegroup/{id}`| Obtener un grupo de escape por su ID.    |
-| POST   | `/api/escapegroup`     | Crear un nuevo grupo de escape.          |
-| PUT    | `/api/escapegroup/{id}`| Actualizar un grupo de escape existente. |
-| DELETE | `/api/escapegroup/{id}`| Eliminar un grupo de escape por su ID.   |
+| Método | Endpoint                        | Descripción                                         |
+|--------|---------------------------------|-----------------------------------------------------|
+| GET    | `/api/persons`                  | Listar personas.                                    |
+| GET    | `/api/persons/{id}`             | Obtener persona por ID.                             |
+| GET    | `/api/persons/email/{email}`    | Buscar persona por email.                           |
+| POST   | `/api/persons`                  | Crear persona (email único y validado).             |
+| POST   | `/api/persons/user/{userId}`    | Crear persona y asociarla a un usuario existente.   |
+| PUT    | `/api/persons/{id}`             | Actualizar persona.                                 |
+| DELETE | `/api/persons/{id}`             | Eliminar persona.                                   |
 
 ---
 
-### Favoritos de Escape (`/api/escapes/favourites`)
+### Asociaciones User-Person
 
-| Método | Endpoint                                      | Descripción                                                        |
-|--------|-----------------------------------------------|--------------------------------------------------------------------|
-| GET    | `/api/escapes/favourites`                     | Listar todas las relaciones de favoritos.                          |
-| GET    | `/api/escapes/favourites/{id}`                | Obtener un favorito por su id.                                     |
-| POST   | `/api/escapes/favourites`                     | Añadir un escape favorito para una persona.                        |
-| DELETE | `/api/escapes/favourites/{id}`                | Eliminar un escape favorito por su id.                             |
-| GET    | `/api/escapes/favourites/room/{escapeId}`     | Buscar favorito por id de room (devuelve uno o 404 si no existe).  |
-| GET    | `/api/escapes/favourites/person/id={userId}`  | Listar todos los favoritos de una persona por su id.               |
-
-**Notas:**  
-- Si la persona no existe o no tiene favoritos, el endpoint devuelve una lista vacía.
-- Si el favorito por room no existe, devuelve 404.
+- **Relación 1:1**:  
+  Un usuario puede tener asociada una persona y viceversa.
+- Puedes crear una persona y luego asociarla a un usuario, o crearla directamente asociada con `/api/persons/user/{userId}`.
 
 ---
 
-### Ubicaciones (`/api/locations`)
+### Otros recursos
 
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/locations`   | Listar todas las ubicaciones.            |
-| GET    | `/api/locations/{id}` | Obtener una ubicación por su ID.       |
-| POST   | `/api/locations`   | Crear una nueva ubicación.               |
-| PUT    | `/api/locations/{id}` | Actualizar una ubicación existente.    |
-| DELETE | `/api/locations/{id}` | Eliminar una ubicación por su ID.      |
+- **Grupos de Escape:** `/api/escapegroup`
+- **Favoritos de Escape:** `/api/escapes/favourites`
+- **Ubicaciones:** `/api/locations`
+- **Salas:** `/api/rooms`
+- **Planes:** `/api/plans`
+- **Sesiones:** `/api/sessions`
+- **Encuestas:** `/api/surveys`
+- **PersonGroup:** `/api/persongroups`
 
----
-
-### Planes (`/api/plans`) *(estructura sugerida, implementar controlador)*
-
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/plans`       | Listar todos los planes.                 |
-| GET    | `/api/plans/{id}`  | Obtener un plan por su ID.               |
-| POST   | `/api/plans`       | Crear un nuevo plan.                     |
-| PUT    | `/api/plans/{id}`  | Actualizar un plan existente.            |
-| DELETE | `/api/plans/{id}`  | Eliminar un plan por su ID.              |
+*(Ver código para endpoints detallados y estructura de cada entidad)*
 
 ---
 
-### Salas (`/api/rooms`) *(estructura sugerida, implementar controlador)*
+## Relaciones entre entidades
 
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/rooms`       | Listar todas las salas.                  |
-| GET    | `/api/rooms/{id}`  | Obtener una sala por su ID.              |
-| POST   | `/api/rooms`       | Crear una nueva sala.                    |
-| PUT    | `/api/rooms/{id}`  | Actualizar una sala existente.           |
-| DELETE | `/api/rooms/{id}`  | Eliminar una sala por su ID.             |
-
----
-
-### Sesiones (`/api/sessions`) *(estructura sugerida, implementar controlador)*
-
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/sessions`    | Listar todas las sesiones.               |
-| GET    | `/api/sessions/{id}` | Obtener una sesión por su ID.           |
-| POST   | `/api/sessions`    | Crear una nueva sesión.                  |
-| PUT    | `/api/sessions/{id}` | Actualizar una sesión existente.        |
-| DELETE | `/api/sessions/{id}` | Eliminar una sesión por su ID.          |
+- **User** 1:1 **Person**
+- **User** n:m **Role**
+- **Person** n:m **EscapeGroup** (a través de PersonGroup)
+- **Person** n:m **EscapeFavourite**
+- **EscapeGroup** 1:n **PersonGroup**
+- **Plan**, **Session**, **Survey**: ver entidades y controladores
 
 ---
 
-### Encuestas (`/api/surveys`) *(estructura sugerida, implementar controlador)*
+## Ejemplos de uso de endpoints
 
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/surveys`     | Listar todas las encuestas.              |
-| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
-| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
-| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
-| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
+### Registro de usuario
+
+**POST** `/api/users`
+```json
+{
+  "username": "usuario1",
+  "password": "clave1234",
+  "admin": false
+}
+```
+
+### Login de usuario
+
+**POST** `/api/users/login`
+```json
+{
+  "username": "usuario1",
+  "password": "clave1234"
+}
+```
+**Respuesta:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Crear persona y asociarla a un usuario
+
+**POST** `/api/persons/user/1`
+```json
+{
+  "firstName": "Juan",
+  "lastName": "Pérez",
+  "email": "juan@email.com",
+  "birthDate": "1990-01-01",
+  "isPremium": true
+}
+```
+
+### Acceso a endpoints protegidos
+
+Incluye el JWT en la cabecera:
+```
+Authorization: Bearer <token>
+```
 
 ---
 
-### PersonGroup (`/api/persongroups`) *(estructura sugerida, implementar controlador)*
+## Recomendaciones para frontend y app móvil
 
-| Método | Endpoint                                  | Descripción                                      |
-|--------|------------------------------------------|--------------------------------------------------|
-| GET    | `/api/persongroups/person/{personId}`     | Obtener todos los grupos de una persona.         |
-| GET    | `/api/persongroups/group/{groupId}`       | Obtener todas las personas de un grupo.          |
-| POST   | `/api/persongroups`                      | Crear una relación entre persona y grupo.        |
-| DELETE | `/api/persongroups/person/{personId}/group/{groupId}` | Eliminar una relación entre persona y grupo. |
-
----
-
-## Próximos pasos
-
-- Implementar los controladores y servicios para las entidades Room, Session, Plan, Survey y PersonGroup.
-- Añadir endpoints completos para encuestas (Survey), incluyendo creación, edición y votación.
-- Mejorar la validación y el manejo de errores en todos los endpoints.
-- Añadir pruebas unitarias e integradas para los endpoints y servicios.
-- Documentar la API con Swagger/OpenAPI.
-- Optimizar la gestión de relaciones y restricciones de unicidad en entidades clave.
-- Añadir paginación y filtros en los listados principales.
-- Mejorar la seguridad y autenticación de la API.
+- **Web:**  
+  - Usa fetch/axios para consumir la API.
+  - Guarda el JWT en memoria o en almacenamiento seguro (no en localStorage si puedes evitarlo).
+  - Añade el JWT en la cabecera `Authorization` en cada petición protegida.
+- **Android:**  
+  - Usa Retrofit, Volley o HttpUrlConnection para consumir la API.
+  - Guarda el JWT en SharedPreferences seguro.
+  - Añade el JWT en la cabecera `Authorization` en cada petición protegida.
+- **CORS:**  
+  - Si tienes errores de CORS en desarrollo, revisa la configuración en `SpringSecurityConfig.java`.
 
 ---
 
-¿Quieres que te ayude a generar la estructura de algún controlador o endpoint que falte?
+## Próximos pasos y mejoras
+
+- Implementar controladores completos para Room, Session, Plan, Survey y PersonGroup.
+- Añadir documentación Swagger/OpenAPI.
+- Mejorar validaciones y manejo de errores.
+- Añadir paginación y filtros en listados.
+- Añadir tests unitarios e integrados.
+- Optimizar la gestión de relaciones y restricciones de unicidad.
+- Revisar la consistencia de los deletes (borrado en cascada, FK).
+- Restringir CORS para producción.
+
+---
+
+**¿Dudas o sugerencias?**  
+Abre un issue en el repositorio o contacta con el autor.

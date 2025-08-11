@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
             optionalRoleAdmin.ifPresent(roles::add);
         }
         
-        user.setRoles(roles);
+       user.setRoles(roles);
        user.setPassword(passwordEncoder.encode(user.getPassword())); ;
 
 
@@ -53,4 +54,32 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findById(Long id) {
+        return repository.findById(id);
+
+}
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> delete(User user) {
+        Optional<User> optionalUser = repository.findById(user.getId());
+        if (optionalUser.isPresent()) {
+            repository.delete(user);
+            return optionalUser;
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
+    }
 }

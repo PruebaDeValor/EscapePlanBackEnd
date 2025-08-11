@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.User;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.PersonService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,9 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.UserService userService;
 
     // Buscar todas las personas
     @GetMapping
@@ -60,6 +65,7 @@ public class PersonController {
     }
 
     // Crear una nueva persona validando el email
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
 public ResponseEntity<?> create(@Valid @RequestBody Person person) {
     // Comprobar si ya existe una persona con ese email
@@ -70,7 +76,30 @@ public ResponseEntity<?> create(@Valid @RequestBody Person person) {
     Person personNew = personService.save(person);
     return ResponseEntity.status(HttpStatus.CREATED).body(personNew);
 }
+    // Crear una nueva persona validando el email y asociándola a un usuario
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PostMapping("/user/{userId}")
+    public ResponseEntity<?> createAndAssignToUser(@PathVariable Long userId, @Valid @RequestBody Person person) {
+        // Validación de email único
+        Optional<Person> existing = personService.findByEmail(person.getEmail());
+        if (existing.isPresent()) {
+            return ResponseEntity.badRequest().body("El email ya está registrado.");
+        }
 
+        // Buscar el usuario
+        Optional<User> userOpt = userService.findById(userId);
+        if (userOpt.isEmpty()) {
+        return ResponseEntity.badRequest().body("Usuario no encontrado.");
+        }
+        User user = userOpt.get();
+
+        // Asociar la persona al usuario
+        person = personService.save(person);
+        user.setPerson(person);
+        userService.save(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(person);
+}
     // Actualizar una persona existente
     @PutMapping("/{id}")
     public ResponseEntity<Person> update(@PathVariable Long id, @RequestBody Person person) {
