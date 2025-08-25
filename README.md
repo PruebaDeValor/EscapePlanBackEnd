@@ -28,7 +28,6 @@ Desarrollado en **Spring Boot 3**, con autenticación JWT, roles, validaciones y
 - **MySQL**
 - **Maven**
 - **Jakarta Validation**
-- **JUnit** para tests
 
 ---
 
