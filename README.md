@@ -95,6 +95,7 @@ spring.jpa.show-sql=true
 
 ## CORS
 
+- **Configurado para permitir todos los orígenes en desarrollo** (`*`).
 - Para producción, modifica en `SpringSecurityConfig.java` los orígenes permitidos.
 
 ---
