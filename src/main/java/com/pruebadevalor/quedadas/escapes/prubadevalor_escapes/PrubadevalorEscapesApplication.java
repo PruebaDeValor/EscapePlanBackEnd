@@ -1,6 +1,5 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.EscapeGroup;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.PersonGroup;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.User;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.EscapeGroupRepository;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonGroupRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonRepository;
-import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.UserRepository;
 
 @SpringBootApplication
 public class PrubadevalorEscapesApplication implements CommandLineRunner {
@@ -24,14 +17,14 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 	@Autowired
 	private PersonRepository personRepository;
 
-	@Autowired
+	/*@Autowired
 	private PersonGroupRepository personGroupRepository;
 
 	@Autowired
 	private EscapeGroupRepository groupRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository;*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrubadevalorEscapesApplication.class, args);
@@ -40,11 +33,11 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
 	@Override
 	public void run (String... args) throws Exception {
 	System.out.println("La aplicación se ha iniciado correctamente.");
-	manyToOne(); // Llamar al método manyToOne para crear la relación entre personas y grupos
+	//manyToOne(); // Llamar al método manyToOne para crear la relación entre personas y grupos
 	manyToOneFindByIdClient(); // Llamar al método manyToOneFindByIdClient para buscar una persona por su ID
 	}
 
-	@Transactional
+	/*@Transactional
 	public void manyToOne() {
     // Persona 1
     Long userId = 17L; // Cambia esto por el ID que quieras buscar
@@ -105,7 +98,7 @@ public class PrubadevalorEscapesApplication implements CommandLineRunner {
     personGroup2.setStatus(PersonGroup.Status.ACTIVE);
     PersonGroup personGroupDB = personGroupRepository.save(personGroup2);
     System.out.println(personGroupDB);
-}
+}*/
 
 	@Transactional
 	public void manyToOneFindByIdClient() {

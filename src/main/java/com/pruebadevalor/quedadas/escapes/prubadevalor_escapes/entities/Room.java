@@ -2,6 +2,7 @@ package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -22,6 +23,13 @@ public class Room {
     @Size(max = 1000, message = "Long description cannot be longer than 1000 characters")
     private String longDescription; // Descripción detallada
 
+    private Long minimumCapacity; // Capacidad mínima de personas
+
+    private Long maximumCapacity; // Capacidad máxima de personas
+
+    @NotNull(message = "Is scary cannot be empty")
+    private Boolean isScary;
+
     @Size(max = 100, message = "Theme cannot be longer than 100 characters")
     private String theme; // Temática de la escape room
 
@@ -39,13 +47,19 @@ public class Room {
     }
 
     // Constructor con todos los parámetros
-    public Room(String name, String shortDescription, String longDescription, String theme, String imageName, Location location) {
+    public Room(String name, String shortDescription, String longDescription,
+    String theme, String imageName, Location location, String websiteUrl,
+    Long minimumCapacity, Long maximumCapacity, Boolean isScary) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.theme = theme;
         this.imageName = imageName;
         this.location = location;
+        this.websiteUrl = websiteUrl;
+        this.minimumCapacity = minimumCapacity;
+        this.maximumCapacity = maximumCapacity;
+        this.isScary = isScary;
     }
 
     // Getters y setters
@@ -105,4 +119,39 @@ public class Room {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public Long getMinimumCapacity() {
+        return minimumCapacity;
+    }
+
+    public void setMinimumCapacity(Long minimumCapacity) {
+        this.minimumCapacity = minimumCapacity;
+    }
+
+    public Long getMaximumCapacity() {
+        return maximumCapacity;
+    }
+
+    public void setMaximumCapacity(Long maximumCapacity) {
+        this.maximumCapacity = maximumCapacity;
+    }
+
+    public Boolean getIsScary() {
+        return isScary;
+    }
+
+    public void setIsScary(Boolean isScary) {
+        this.isScary = isScary;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
+
+
+    
 }

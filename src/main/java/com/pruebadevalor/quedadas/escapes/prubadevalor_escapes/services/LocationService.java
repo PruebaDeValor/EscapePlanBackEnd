@@ -13,8 +13,10 @@ public interface LocationService {
 
     Location save(Location location);
 
-    void deleteById(Long id);
+    Optional<Location> deleteById(Long id);
 
     Optional<Location> delete(Location location);
+
+    Optional<Location> findByName(String name);
 
 }

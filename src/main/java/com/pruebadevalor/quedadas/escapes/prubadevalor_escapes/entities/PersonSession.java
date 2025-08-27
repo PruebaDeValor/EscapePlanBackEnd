@@ -5,7 +5,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name = "person_sessions")
+@Table(
+    name = "person_sessions",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"person_id", "session_id"})
+)
 public class PersonSession {
 
     @Id
@@ -13,9 +16,11 @@ public class PersonSession {
     private Long id;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "session_id", nullable = false)
     private Session session;
 
     // Valoración de la experiencia de 0 a 5, en pasos de 0.5 (sin validación estricta)

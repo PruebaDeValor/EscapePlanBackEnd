@@ -31,6 +31,18 @@ public class PersonServiceImpl implements PersonService{
     @Transactional
     @Override
     public Person save(Person person) {
+        if (person.getNumEscapes() == null) {
+            person.setNumEscapes(0);
+        }
+        if (person.getNumEscapesOrganized() == null) {
+            person.setNumEscapesOrganized(0);
+        }
+        if (person.getNumPlans() == null) {
+            person.setNumPlans(0);
+        }
+        if (person.getNumPlansOrganized() == null) {
+            person.setNumPlansOrganized(0);
+        }
         return personRepository.save(person);
     }
 

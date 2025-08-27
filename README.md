@@ -1,3 +1,4 @@
+
 # EscapePlan (prubadevalor-escapes)
 
 Backend para gestión de planes de Escape Room, usuarios, grupos, salas, sesiones, encuestas y favoritos.  
@@ -5,14 +6,15 @@ Desarrollado en **Spring Boot 3**, con autenticación JWT, roles, validaciones y
 
 ---
 
+
 ## Tabla de Contenidos
 
 - [Tecnologías](#tecnologías)
 - [Estructura del Proyecto](#estructura-del-proyecto)
+- [Documentación de la API (Swagger)](#documentación-de-la-api-swagger)
 - [Configuración](#configuración)
 - [Seguridad y Autenticación](#seguridad-y-autenticación)
 - [CORS](#cors)
-- [Principales Endpoints](#principales-endpoints)
 - [Relaciones entre entidades](#relaciones-entre-entidades)
 - [Ejemplos de uso de endpoints](#ejemplos-de-uso-de-endpoints)
 - [Recomendaciones para frontend y app móvil](#recomendaciones-para-frontend-y-app-móvil)
@@ -28,7 +30,6 @@ Desarrollado en **Spring Boot 3**, con autenticación JWT, roles, validaciones y
 - **MySQL**
 - **Maven**
 - **Jakarta Validation**
-- **JUnit** para tests
 
 ---
 
@@ -50,6 +51,15 @@ src/
 ```
 
 ---
+
+
+## Documentación de la API (Swagger)
+
+La documentación completa y actualizada de los endpoints está disponible en Swagger/OpenAPI.
+
+- Accede a la documentación interactiva en [`/swagger-ui.html`](http://localhost:8080/swagger-ui.html) (o el puerto configurado).
+- Incluye detalles de cada endpoint, parámetros, respuestas y ejemplos.
+- Consulta aquí la información más actualizada sobre la API, evitando duplicidad y desactualización.
 
 ## Configuración
 
@@ -90,87 +100,6 @@ spring.jpa.show-sql=true
 
 ---
 
-## Principales Endpoints
-
-### Usuarios (`/api/users`)
-
-| Método | Endpoint                         | Descripción                                                      |
-|--------|----------------------------------|------------------------------------------------------------------|
-| GET    | `/api/users`                     | Listar usuarios.                                                 |
-| POST   | `/api/users`                     | Crear usuario (username único, password cifrada).                |
-| POST   | `/api/users/login`               | Login y obtención de JWT.                                        |
-| POST   | `/api/users/register`            | Registro rápido de usuario no admin.               |
-| PUT    | `/api/users/{id}`                | Actualizar datos de un usuario existente.                        |
-| PUT    | `/api/users/{userId}/person/{personId}` | Asociar una persona existente a un usuario existente.     |
-
----
-
-#### Ejemplo de actualización de usuario
-
-**PUT** `/api/users/1`
-```json
-{
-  "username": "nuevoNombre",
-  "password": "nuevaClave",
-  "admin": false
-}
-```
-
-#### Ejemplo de asociación de persona a usuario
-
-**PUT** `/api/users/1/person/5`
-
-No requiere body. Asocia la persona con ID 5 al usuario con ID 1.
-
-#### Ejemplo de registro rápido
-
-**POST** `/api/users/register`
-```json
-{
-  "username": "usuario2",
-  "password": "clave5678"
-}
-```
-Este endpoint crea un usuario con rol de usuario normal (`admin: false`).
-
----
-
-### Personas (`/api/persons`)
-
-| Método | Endpoint                        | Descripción                                         |
-|--------|---------------------------------|-----------------------------------------------------|
-| GET    | `/api/persons`                  | Listar personas.                                    |
-| GET    | `/api/persons/{id}`             | Obtener persona por ID.                             |
-| GET    | `/api/persons/email/{email}`    | Buscar persona por email.                           |
-| POST   | `/api/persons`                  | Crear persona (email único y validado).             |
-| POST   | `/api/persons/user/{userId}`    | Crear persona y asociarla a un usuario existente.   |
-| PUT    | `/api/persons/{id}`             | Actualizar persona.                                 |
-| DELETE | `/api/persons/{id}`             | Eliminar persona.                                   |
-
----
-
-### Asociaciones User-Person
-
-- **Relación 1:1**:  
-  Un usuario puede tener asociada una persona y viceversa.
-- Puedes crear una persona y luego asociarla a un usuario, o crearla directamente asociada con `/api/persons/user/{userId}`.
-
----
-
-### Otros recursos
-
-- **Grupos de Escape:** `/api/escapegroup`
-- **Favoritos de Escape:** `/api/escapes/favourites`
-- **Ubicaciones:** `/api/locations`
-- **Salas:** `/api/rooms`
-- **Planes:** `/api/plans`
-- **Sesiones:** `/api/sessions`
-- **Encuestas:** `/api/surveys`
-- **PersonGroup:** `/api/persongroups`
-
-*(Ver código para endpoints detallados y estructura de cada entidad)*
-
----
 
 ## Relaciones entre entidades
 
@@ -289,11 +218,10 @@ Authorization: Bearer <token>
 
 ## Próximos pasos
 
-- Implementar los controladores y servicios para las entidades Room, Session, Plan, Survey y PersonGroup.
+- Implementar los controladores y servicios para las entidades 
 - Añadir endpoints completos para encuestas (Survey), incluyendo creación, edición y votación.
 - Mejorar la validación y el manejo de errores en todos los endpoints.
 - Añadir pruebas unitarias e integradas para los endpoints y servicios.
-- Documentar la API con Swagger/OpenAPI.
 - Optimizar la gestión de relaciones y restricciones de unicidad en entidades clave.
 - Añadir paginación y filtros en los listados principales.
 - Mejorar la seguridad y autenticación de la API.

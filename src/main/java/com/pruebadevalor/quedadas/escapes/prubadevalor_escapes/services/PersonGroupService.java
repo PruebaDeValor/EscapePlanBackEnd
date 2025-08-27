@@ -15,16 +15,17 @@ public interface PersonGroupService {
 
     PersonGroup saveByPersonIdEscapeGroupIdRoleAndStatus (Long personId, Long escapeGroupId, PersonGroup.Role role, PersonGroup.Status status);
 
-    List<PersonGroup> findByPersonId(Long personId);
     List<PersonGroup> findByEscapeGroupId(Long escapeGroupId);
     
     PersonGroup save(PersonGroup personGroup);
 
-    void deleteById(Long id);
+    Optional<PersonGroup> deleteById(Long id);
 
     Optional<PersonGroup> delete(PersonGroup personGroup);
 
-    void deleteByPersonIdAndEscapeGroupId(Long personId, Long escapeGroupId);
+    Optional<PersonGroup> deleteByPersonIdAndEscapeGroupId(Long personId, Long escapeGroupId);
+
+    List<PersonGroup> findAllByPersonId(Long personId);
 
     
 }

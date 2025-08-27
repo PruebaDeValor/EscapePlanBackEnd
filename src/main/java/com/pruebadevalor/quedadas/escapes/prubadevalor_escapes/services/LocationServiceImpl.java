@@ -20,36 +20,82 @@ public class LocationServiceImpl implements LocationService{
     @Transactional(readOnly = true)
     @Override
     public List<Location> findAll() {
+        if (locationRepository == null) {
+            throw new LocationBusinessException("Location repository is not initialized");
+        }
         return (List<Location>) locationRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<Location> findById(Long id) {
-        return locationRepository.findById(id);
+        if(id == null) {
+            throw new LocationBusinessException("Location ID cannot be null");
+        }
+        Optional<Location> optionalLocation = locationRepository.findById(id);
+        if (!optionalLocation.isPresent()) {
+            throw new LocationBusinessException("Location with ID " + id + " does not exist.");
+        }
+        return optionalLocation;
     }
 
     @Transactional
     @Override
     public Location save(Location location) {
+        if (location.getName() == null || location.getName().isEmpty()) {
+            throw new LocationBusinessException("Location name cannot be null or empty");
+        }
+    
         return locationRepository.save(location);
     }
 
     @Transactional
     @Override
-    public void deleteById(Long id) {
+    public Optional<Location> deleteById(Long id) {
+        Optional<Location> optionalLocation = locationRepository.findById(id);
+        if (optionalLocation.isEmpty()) {
+            throw new LocationBusinessException("Location with ID " + id + " does not exist.");
+        }
         locationRepository.deleteById(id);
+        return optionalLocation; // Return the deleted location
+        
     }
 
     @Transactional
     @Override
     public Optional<Location> delete(Location location) {
+        if (location == null || location.getId() == null) {
+            throw new LocationBusinessException("Location cannot be null and must have an ID");
+        }
+
         Optional<Location> locationOptional = locationRepository.findById(location.getId());
-        locationOptional.ifPresent(locationDb -> {
-            locationRepository.delete(locationDb);
-        });
-        return locationOptional;
+        if (!locationOptional.isPresent()){
+            throw new LocationBusinessException("Location with ID " +
+            location.getId() + " does not exist.");
+        }
+            locationRepository.delete(location);
+            return locationOptional;
+    };
+        
+    
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Location> findByName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new LocationBusinessException("Location name cannot be null or empty");
+        }
+        Optional<Location> optionalLocation = locationRepository.findByName(name);
+        if (!optionalLocation.isPresent()) {
+            throw new LocationBusinessException("Location with name " + name + " does not exist.");
+        }
+        return optionalLocation;
     }
     
-    
+    // Excepción general para lógica de negocio de Location
+    public static class LocationBusinessException extends RuntimeException {
+        public LocationBusinessException(String message) {
+            super(message);
+        }
+    }
 }

@@ -5,23 +5,28 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "person_groups")
+@Table(name = "person_groups",
+uniqueConstraints = @UniqueConstraint(columnNames = {"person_id", "escape_group_id"})
+)
 public class PersonGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", nullable = false)
     @NotNull(message = "Person cannot be null")
-    private Person person; // Persona asociada al grupo
+    private Person person;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "escape_group_id", nullable = false)
-    private EscapeGroup escapeGroup; // Grupo de escape al que pertenece la persona
+    @NotNull(message = "EscapeGroup cannot be null")
+    private EscapeGroup escapeGroup;
 
     @NotNull(message = "Registration date cannot be null")
     private LocalDate registrationDate; // Fecha de registro de la persona en el grupo
+
 
     public enum Role {
         ADMIN,

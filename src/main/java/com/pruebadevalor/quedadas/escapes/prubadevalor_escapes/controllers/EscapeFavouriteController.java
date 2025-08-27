@@ -1,4 +1,10 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.controllers;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +37,18 @@ public class EscapeFavouriteController {
     // Para listar todas las relaciones de favoritos de cada usuario.
     // Endpoint: GET /api/escapes/favourites
     @GetMapping
+        @Operation(summary = "Listar todos los favoritos", description = "Devuelve todas las relaciones de favoritos de escape rooms")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "200",
+                description = "Lista de favoritos",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "[{\"id\": 1, \"room\": {\"id\": 2}, \"person\": {\"id\": 3}}]")
+                )
+            )
+        })
     public List<EscapeFavourite> list() {
         return escapeFavouriteService.findAll();
     }
@@ -39,6 +57,26 @@ public class EscapeFavouriteController {
     // Endpoint: GET /api/escapes/favourites/{id}
 
     @GetMapping("/{id}")
+        @Operation(summary = "Obtener favorito por ID", description = "Devuelve un favorito específico por su ID")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "200",
+                description = "Favorito encontrado",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "{\"id\": 1, \"room\": {\"id\": 2}, \"person\": {\"id\": 3}}")
+                )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Favorito no encontrado",
+                content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\"error\": \"EscapeFavourite with id 1 does not exist.\"}")
+                )
+            )
+        })
     public ResponseEntity<?> view(@PathVariable Long id) {
         Optional<EscapeFavourite> escapeFavouriteOptional = escapeFavouriteService.findById(id);
         if (escapeFavouriteOptional.isPresent()) {
@@ -50,6 +88,18 @@ public class EscapeFavouriteController {
     // Crear un nuevo favorito.
     // Endpoint: POST /api/escapes/favourites
     @PostMapping
+        @Operation(summary = "Crear nuevo favorito", description = "Crea una nueva relación de favorito para una escape room")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "201",
+                description = "Favorito creado",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "{\"room\": {\"id\": 2}, \"person\": {\"id\": 3}}")
+                )
+            )
+        })
     public ResponseEntity<EscapeFavourite> create(@RequestBody EscapeFavourite escapeFavourite) {
         EscapeFavourite escapeFavouriteNew = escapeFavouriteService.save(escapeFavourite);
         return ResponseEntity.status(HttpStatus.CREATED).body(escapeFavouriteNew);
@@ -58,6 +108,26 @@ public class EscapeFavouriteController {
     // Eliminar un favorito por ID.
     // Endpoint: DELETE /api/escapes/favourites/{id}
     @DeleteMapping("/{id}")
+        @Operation(summary = "Eliminar favorito por ID", description = "Elimina un favorito específico por su ID")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "200",
+                description = "Favorito eliminado",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "{\"id\": 1, \"room\": {\"id\": 2}, \"person\": {\"id\": 3}}")
+                )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Favorito no encontrado",
+                content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\"error\": \"EscapeFavourite with id 1 does not exist.\"}")
+                )
+            )
+        })
     public ResponseEntity<?> delete (@PathVariable Long id) {
         EscapeFavourite escapeFavourite = new EscapeFavourite();
         escapeFavourite.setId(id);
@@ -71,6 +141,26 @@ public class EscapeFavouriteController {
     // Buscar favoritos por ID de escape.
     // Endpoint: GET /api/escapes/favourites/room/{escapeId}
     @GetMapping("/room/{escapeId}")
+        @Operation(summary = "Buscar favorito por ID de escape room", description = "Devuelve el favorito asociado a una escape room por su ID")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "200",
+                description = "Favorito encontrado",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "{\"id\": 1, \"room\": {\"id\": 2}, \"person\": {\"id\": 3}}")
+                )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Favorito no encontrado",
+                content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\"error\": \"EscapeFavourite with room id 2 does not exist.\"}")
+                )
+            )
+        })
     public ResponseEntity<?> findByRoomId(@PathVariable Long escapeId) {
         Optional<EscapeFavourite> escapeFavouriteOptional = escapeFavouriteService.findByRoomId(escapeId);
         if (escapeFavouriteOptional.isPresent()) {
@@ -81,7 +171,27 @@ public class EscapeFavouriteController {
 
     // Buscar favoritos por ID de usuario.
     // Endpoint: GET /api/escapes/favourites/person/{userId}
-    @GetMapping("/person/id={userId}")
+    @GetMapping("/person/{userId}")
+        @Operation(summary = "Buscar favoritos por ID de usuario", description = "Devuelve todos los favoritos asociados a un usuario por su ID")
+        @ApiResponses({
+            @ApiResponse(
+                responseCode = "200",
+                description = "Favoritos encontrados",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EscapeFavourite.class),
+                    examples = @ExampleObject(value = "[{\"id\": 1, \"room\": {\"id\": 2}, \"person\": {\"id\": 3}}]")
+                )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Favoritos no encontrados",
+                content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\"error\": \"No favourites found for user id 3.\"}")
+                )
+            )
+        })
     public ResponseEntity<?> findByPerson(@PathVariable Long userId) {
         List<EscapeFavourite> escapeFavourites = escapeFavouriteService.findByPerson(userId);
         if (!escapeFavourites.isEmpty()) {
