@@ -1,3 +1,4 @@
 # Ignorar el archivo application.properties en la carpeta resources
 src/main/resources/application.properties
 target/classes/application.properties
+target/classes/com/pruebadevalor/quedadas/escapes/prubadevalor_escapes/controllers/PersonGroupRequest.class
