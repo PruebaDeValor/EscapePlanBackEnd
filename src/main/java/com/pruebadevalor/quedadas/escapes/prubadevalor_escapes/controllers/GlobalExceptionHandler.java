@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.PersonGroupServiceImpl;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.SessionServiceImpl;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.RoomServiceImpl;
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.EscapeFavouriteServiceImpl;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.LocationServiceImpl;
 
 @ControllerAdvice
@@ -35,5 +36,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    // Puedes agregar otros manejadores aquí si lo necesitas
+    @ExceptionHandler(EscapeFavouriteServiceImpl.EscapeFavouriteBusinessException.class)
+    public ResponseEntity<String> handleEscapeFavouriteBusinessException(EscapeFavouriteServiceImpl.EscapeFavouriteBusinessException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+    
 }

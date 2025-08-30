@@ -13,7 +13,11 @@ public interface EscapeFavouriteRepository extends CrudRepository<EscapeFavourit
 
     List<EscapeFavourite> findByPerson(Person person);
 
-    Optional<EscapeFavourite> findByRoom(Room room);
+    List<EscapeFavourite> findByRoom(Room room);
+
+    Optional<EscapeFavourite> findByRoomAndPerson(Room room, Person person);
+
+
 
     
 

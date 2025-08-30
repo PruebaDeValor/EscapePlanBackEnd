@@ -205,16 +205,6 @@ Authorization: Bearer <token>
 
 ---
 
-### PersonGroup (`/api/persongroups`) *(estructura sugerida, implementar controlador)*
-
-| Método | Endpoint                                  | Descripción                                      |
-|--------|------------------------------------------|--------------------------------------------------|
-| GET    | `/api/persongroups/person/{personId}`     | Obtener todos los grupos de una persona.         |
-| GET    | `/api/persongroups/group/{groupId}`       | Obtener todas las personas de un grupo.          |
-| POST   | `/api/persongroups`                      | Crear una relación entre persona y grupo.        |
-| DELETE | `/api/persongroups/person/{personId}/group/{groupId}` | Eliminar una relación entre persona y grupo. |
-
----
 
 ## Próximos pasos
 

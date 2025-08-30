@@ -12,9 +12,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "roles")
+@Table(
+    name = "roles",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
+)
 public class Role {
   
     @Id

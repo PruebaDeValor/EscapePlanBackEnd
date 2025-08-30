@@ -13,11 +13,17 @@ public interface EscapeFavouriteService {
 
     EscapeFavourite save(EscapeFavourite escapeFavourite);
 
+    EscapeFavourite saveByEscapeIdAndPersonId(Long escapeId, Long personId);
+
+    EscapeFavourite update(Long escapeFavouriteId, EscapeFavourite escapeFavourite);
+
     void deleteById(Long id);
 
     Optional<EscapeFavourite> delete(EscapeFavourite escapeFavourite);
 
-    Optional<EscapeFavourite> findByRoomId(Long escapeId);
+    List<EscapeFavourite> findByRoomId(Long escapeId);
 
     List<EscapeFavourite> findByPerson(Long userId);
+
+    Optional<EscapeFavourite> findByRoomAndPerson(Long roomId, Long personId);
 }

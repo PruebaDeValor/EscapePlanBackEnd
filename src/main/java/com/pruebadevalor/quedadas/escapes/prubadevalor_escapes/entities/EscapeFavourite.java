@@ -5,9 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "escape_favourites")
+@Table(name = "escape_favourites", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id", "room_id"}))
 public class EscapeFavourite {
 
     @Id
