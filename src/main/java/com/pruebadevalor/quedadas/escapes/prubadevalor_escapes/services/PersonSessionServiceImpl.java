@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Person;
@@ -13,6 +14,7 @@ import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.Pers
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.PersonSessionRepository;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.repositories.SessionRepository;
 
+@Service
 public class PersonSessionServiceImpl implements PersonSessionService {
     // Excepción para lógica de negocio de PersonSession
     
