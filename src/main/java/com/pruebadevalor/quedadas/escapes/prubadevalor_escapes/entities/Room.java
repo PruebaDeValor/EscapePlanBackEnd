@@ -27,8 +27,15 @@ public class Room {
 
     private Long maximumCapacity; // Capacidad máxima de personas
 
+    public enum IsScaryType {
+    YES,
+    NO,
+    TENSION
+  }
+
     @NotNull(message = "Is scary cannot be empty")
-    private Boolean isScary;
+    @Enumerated(EnumType.STRING)
+    private IsScaryType isScary;
 
     @Size(max = 100, message = "Theme cannot be longer than 100 characters")
     private String theme; // Temática de la escape room
@@ -49,7 +56,7 @@ public class Room {
     // Constructor con todos los parámetros
     public Room(String name, String shortDescription, String longDescription,
     String theme, String imageName, Location location, String websiteUrl,
-    Long minimumCapacity, Long maximumCapacity, Boolean isScary) {
+    Long minimumCapacity, Long maximumCapacity, IsScaryType isScary) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
@@ -136,11 +143,11 @@ public class Room {
         this.maximumCapacity = maximumCapacity;
     }
 
-    public Boolean getIsScary() {
+    public IsScaryType getIsScary() {
         return isScary;
     }
 
-    public void setIsScary(Boolean isScary) {
+    public void setIsScary(IsScaryType isScary) {
         this.isScary = isScary;
     }
 

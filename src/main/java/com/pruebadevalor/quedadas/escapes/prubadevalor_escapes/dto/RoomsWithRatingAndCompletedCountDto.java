@@ -1,5 +1,7 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.dto;
 
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Room.IsScaryType;
+
 public class RoomsWithRatingAndCompletedCountDto {
 	private Long id;
 	private String name;
@@ -7,7 +9,7 @@ public class RoomsWithRatingAndCompletedCountDto {
 	private String longDescription;
 	private Long minimumCapacity;
 	private Long maximumCapacity;
-	private Boolean isScary;
+	private IsScaryType isScary;
 	private String theme;
 	private String imageName;
 	private String websiteUrl;
@@ -19,7 +21,7 @@ public class RoomsWithRatingAndCompletedCountDto {
 	public RoomsWithRatingAndCompletedCountDto() {}
 
 	public RoomsWithRatingAndCompletedCountDto(Long id, String name, String shortDescription, String longDescription,
-							  Long minimumCapacity, Long maximumCapacity, Boolean isScary, String theme,
+							  Long minimumCapacity, Long maximumCapacity, IsScaryType isScary, String theme,
 							  String imageName, String websiteUrl, Long locationId, String locationName,
 							  Double averageRating, Long completedCount) {
 		this.id = id;
@@ -57,8 +59,8 @@ public class RoomsWithRatingAndCompletedCountDto {
 	public Long getMaximumCapacity() { return maximumCapacity; }
 	public void setMaximumCapacity(Long maximumCapacity) { this.maximumCapacity = maximumCapacity; }
 
-	public Boolean getIsScary() { return isScary; }
-	public void setIsScary(Boolean isScary) { this.isScary = isScary; }
+	public IsScaryType getIsScary() { return isScary; }
+	public void setIsScary(IsScaryType isScary) { this.isScary = isScary; }
 
 	public String getTheme() { return theme; }
 	public void setTheme(String theme) { this.theme = theme; }

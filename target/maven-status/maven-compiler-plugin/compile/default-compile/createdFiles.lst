@@ -26,6 +26,7 @@ com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\services\EscapeFavourite
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\services\RoomServiceImpl$RoomBusinessException.class
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\dto\SessionSimpleDto$Status.class
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\entities\Session$Status.class
+com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\entities\Room$IsScaryType.class
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\entities\Session.class
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\repositories\SessionRepository.class
 com\pruebadevalor\quedadas\escapes\prubadevalor_escapes\repositories\PersonPlanRepository.class
