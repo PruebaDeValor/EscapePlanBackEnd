@@ -35,18 +35,22 @@ public class Location {
     @Size(max = 500, message = "Google Maps URL cannot be longer than 500 characters")
     private String googleMapsUrl; // Enlace a Google Maps
 
+    @Size(max = 100, message = "Latitude and Longitude cannot be longer than 100 characters")
+    private String latitudeAndLongitudeString; // Latitud y Longitud
+
     // Constructor vacío requerido por JPA
     public Location() {
     }
 
     // Constructor con todos los parámetros
-    public Location(String name, String address, String city, String contactNumber, String websiteUrl, String googleMapsUrl) {
+    public Location(String name, String address, String city, String contactNumber, String websiteUrl, String googleMapsUrl, String latitudeAndLongitudeString) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.contactNumber = contactNumber;
         this.websiteUrl = websiteUrl;
         this.googleMapsUrl = googleMapsUrl;
+        this.latitudeAndLongitudeString = latitudeAndLongitudeString;
     }
 
     // Getters y Setters
@@ -107,6 +111,14 @@ public class Location {
         this.googleMapsUrl = googleMapsUrl;
     }
 
+    public String getLatitudeAndLongitudeString() {
+        return latitudeAndLongitudeString;
+    }
+
+    public void setLatitudeAndLongitudeString(String latitudeAndLongitudeString) {
+        this.latitudeAndLongitudeString = latitudeAndLongitudeString;
+    }
+
     // Método toString para facilitar la depuración
     @Override
     public String toString() {
@@ -118,6 +130,7 @@ public class Location {
                 ", contactNumber='" + contactNumber + '\'' +
                 ", websiteUrl='" + websiteUrl + '\'' +
                 ", googleMapsUrl='" + googleMapsUrl + '\'' +
+                ", latitudeAndLongitudeString='" + latitudeAndLongitudeString + '\'' +
                 '}';
     }
 }
