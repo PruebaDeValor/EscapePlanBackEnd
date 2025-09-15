@@ -168,11 +168,14 @@ public class RoomServiceImpl implements RoomService {
     }
         List<Double> ratings = personSessionRepository.findRatingsByRoomIdForCompletedSessions(roomId);
     if (ratings == null || ratings.isEmpty()) {
-        throw new SessionBusinessException("No ratings found for room ID " + roomId);
+        // No ratings available for this room yet
+        return null;
     }
     double sum = 0.0;
     for (Double rating : ratings) {
-        sum += rating;
+        if (rating != null) {
+            sum += rating;
+        }
     }
     return sum / ratings.size();
     }
@@ -191,7 +194,8 @@ public class RoomServiceImpl implements RoomService {
         }
         Long totalCompleted = personSessionRepository.getTotalSessionCompletedForRoom(roomId);
         if (totalCompleted == null) {
-            throw new RoomBusinessException("No completed sessions found for room ID " + roomId);
+            // If repository returns null, treat as 0 completed sessions
+            return 0L;
         }
         return totalCompleted;
     }
@@ -206,7 +210,11 @@ public class RoomServiceImpl implements RoomService {
         for (Room room : rooms) {
             RoomsWithRatingAndCompletedCountDto dto = new RoomsWithRatingAndCompletedCountDto();
             Long completedCount = personSessionRepository.getTotalSessionCompletedForRoom(room.getId());
+            if (completedCount == null) {
+                completedCount = 0L;
+            }
             Double averageRating = getAverageRatingForRoom(room.getId());
+            // averageRating may be null when no ratings exist; DTO should reflect that
             dto.setCompletedCount(completedCount);
             dto.setAverageRating(averageRating);
             dto.setId(room.getId());

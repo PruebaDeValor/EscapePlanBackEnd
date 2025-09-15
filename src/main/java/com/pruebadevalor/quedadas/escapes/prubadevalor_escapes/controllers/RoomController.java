@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.dto.RoomsWithRatingAndCompletedCountDto;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Room;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.RoomService;
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.services.SessionServiceImpl.SessionBusinessException;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 @RestController
@@ -45,7 +47,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "[{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": true}, {\"id\": 2, \"name\": \"Escape Pirata\", \"isScary\": false}]")
+                examples = @ExampleObject(value = "[{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": \"YES\"}, {\"id\": 2, \"name\": \"Escape Pirata\", \"isScary\": \"NO\"}]")
             )
         )
     })
@@ -63,7 +65,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": true}")
+                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": \"YES\"}")
             )
         ),
         @ApiResponse(
@@ -167,7 +169,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "{\"name\": \"Escape Fantasma\", \"shortDescription\": \"Sala de miedo\", \"longDescription\": \"Una sala con ambientación de terror...\", \"theme\": \"Terror\", \"imageName\": \"fantasma.jpg\", \"location\": {\"id\": 1}, \"websiteUrl\": \"https://escapefantasma.com\", \"minimumCapacity\": 2, \"maximumCapacity\": 6, \"isScary\": true}")
+                examples = @ExampleObject(value = "{\"name\": \"Escape Fantasma\", \"shortDescription\": \"Sala de miedo\", \"longDescription\": \"Una sala con ambientación de terror...\", \"theme\": \"Terror\", \"imageName\": \"fantasma.jpg\", \"location\": {\"id\": 1}, \"websiteUrl\": \"https://escapefantasma.com\", \"minimumCapacity\": 2, \"maximumCapacity\": 6, \"isScary\": \"YES\"}")
             )
         ),
         @ApiResponse(
@@ -197,7 +199,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "{\"name\": \"Escape Fantasma\", \"shortDescription\": \"Sala de miedo\", \"longDescription\": \"Una sala con ambientación de terror...\", \"theme\": \"Terror\", \"imageName\": \"fantasma.jpg\", \"location\": {\"id\": 1}, \"websiteUrl\": \"https://escapefantasma.com\", \"minimumCapacity\": 2, \"maximumCapacity\": 6, \"isScary\": true}")
+                examples = @ExampleObject(value = "{\"name\": \"Escape Fantasma\", \"shortDescription\": \"Sala de miedo\", \"longDescription\": \"Una sala con ambientación de terror...\", \"theme\": \"Terror\", \"imageName\": \"fantasma.jpg\", \"location\": {\"id\": 1}, \"websiteUrl\": \"https://escapefantasma.com\", \"minimumCapacity\": 2, \"maximumCapacity\": 6, \"isScary\": \"YES\"}")
             )
         ),
         @ApiResponse(
@@ -233,7 +235,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": true}")
+                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": \"YES\"}")
             )
         ),
         @ApiResponse(
@@ -264,7 +266,7 @@ public class RoomController {
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = Room.class),
-                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": true}")
+                examples = @ExampleObject(value = "{\"id\": 1, \"name\": \"Escape Fantasma\", \"isScary\": \"YES\"}")
             )
         ),
         @ApiResponse(
@@ -300,4 +302,37 @@ public class RoomController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/averageRating")
+    @Operation(
+        summary = "Listar rooms con valoración media y número de sesiones completadas",
+        description = "Devuelve una lista de objetos que contienen los datos básicos de cada room junto con su valoración media (averageRating) y el número total de sesiones completadas (completedCount)."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Lista de rooms con su valoración media y total de sesiones completadas",
+            content = @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = RoomsWithRatingAndCompletedCountDto.class)),
+                examples = @ExampleObject(value = "[\n  {\n    \"id\": 23,\n    \"name\": \"La Lavandería\",\n    \"shortDescription\": \"Escape room de roleplay y humor para grupos grandes.\",\n    \"longDescription\": \"La Lavandería es un escape room...\",\n    \"minimumCapacity\": 2,\n    \"maximumCapacity\": 10,\n    \"isScary\": \"NO\",\n    \"theme\": \"Humor;Roleo;Grupos;Familiar\",\n    \"imageName\": \"23.webp\",\n    \"websiteUrl\": \"https://thecityescaperoom.com/madrid/la-lavanderia-escape-room\",\n    \"locationId\": 9,\n    \"locationName\": \"Experiencity The City\",\n    \"averageRating\": 4.5,\n    \"completedCount\": 12\n  },\n  {\n    \"id\": 24,\n    \"name\": \"Ciudad de Vacaciones\",\n    \"shortDescription\": \"Escape room de humor y aventura para grupos medianos.\",\n    \"longDescription\": \"Ciudad de Vacaciones es una sala...\",\n    \"minimumCapacity\": 2,\n    \"maximumCapacity\": 7,\n    \"isScary\": \"NO\",\n    \"theme\": \"Humor;Roleo;Aventura;Familiar\",\n    \"imageName\": \"24.webp\",\n    \"websiteUrl\": \"https://thecityescaperoom.com/madrid/ciudad-de-vacaciones\",\n    \"locationId\": 9,\n    \"locationName\": \"Experiencity The City\",\n    \"averageRating\": null,\n    \"completedCount\": 0\n  }\n]")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "No se encontraron valoraciones o datos",
+            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "{\"error\": \"No rooms with ratings and completed counts found.\"}"))
+        )
+    })
+    public ResponseEntity<?> getRoomsWithRatingAndCompletedCount() {
+        try {
+            List<RoomsWithRatingAndCompletedCountDto> dtoList = roomService.getRoomsWithRatingAndCompletedCount();
+            return ResponseEntity.ok(dtoList);
+        } catch (SessionBusinessException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+
 }

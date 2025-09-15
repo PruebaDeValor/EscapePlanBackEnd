@@ -1,7 +1,15 @@
 package com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.dto;
 
 import com.pruebadevalor.quedadas.escapes.prubadevalor_escapes.entities.Room.IsScaryType;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * DTO usado por el endpoint que devuelve las rooms con su valoración media y número de veces completada.
+ * <p>
+ * Notas importantes:
+ * - {@code averageRating} puede ser {@code null} si no existen valoraciones todavía para la room.
+ * - {@code completedCount} es siempre >= 0 (0 indica que nadie ha completado la room todavía).
+ */
 public class RoomsWithRatingAndCompletedCountDto {
 	private Long id;
 	private String name;
@@ -15,7 +23,10 @@ public class RoomsWithRatingAndCompletedCountDto {
 	private String websiteUrl;
 	private Long locationId;
 	private String locationName;
+	@Schema(description = "Promedio de las valoraciones (null si no hay valoraciones)", nullable = true, example = "4.5")
 	private Double averageRating; // Promedio de las valoraciones
+
+	@Schema(description = "Número de personas que han completado la room (>= 0)", minimum = "0", example = "12")
 	private Long completedCount; // Número de personas que han completado la room
 
 	public RoomsWithRatingAndCompletedCountDto() {}
