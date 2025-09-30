@@ -17,14 +17,13 @@ Desarrollado en **Spring Boot 3**, con autenticación JWT, roles, validaciones y
 - [CORS](#cors)
 - [Relaciones entre entidades](#relaciones-entre-entidades)
 - [Ejemplos de uso de endpoints](#ejemplos-de-uso-de-endpoints)
-- [Recomendaciones para frontend y app móvil](#recomendaciones-para-frontend-y-app-móvil)
-- [Próximos pasos y mejoras](#próximos-pasos-y-mejoras)
+
 
 ---
 
 ## Tecnologías
 
-- **Java 24**
+- **Java 21**
 - **Spring Boot 3.4.5**
 - **Spring Security (JWT)**
 - **MySQL**
@@ -45,9 +44,7 @@ src/
      │    ├── security/      # Configuración de seguridad y filtros JWT
      │    ├── services/      # Lógica de negocio
      │    └── validation/    # Validaciones personalizadas
-     └── resources/
-          ├── application.properties
-          └── import.sql
+     └── 
 ```
 
 ---
@@ -57,7 +54,7 @@ src/
 
 La documentación completa y actualizada de los endpoints está disponible en Swagger/OpenAPI.
 
-- Accede a la documentación interactiva en [`/swagger-ui.html`](http://localhost:8080/swagger-ui.html) (o el puerto configurado).
+- Accede a la documentación interactiva en http://ec2-16-171-36-97.eu-north-1.compute.amazonaws.com:8080/swagger-ui/index.html#/
 - Incluye detalles de cada endpoint, parámetros, respuestas y ejemplos.
 - Consulta aquí la información más actualizada sobre la API, evitando duplicidad y desactualización.
 
@@ -103,12 +100,7 @@ spring.jpa.show-sql=true
 
 ## Relaciones entre entidades
 
-- **User** 1:1 **Person**
-- **User** n:m **Role**
-- **Person** n:m **EscapeGroup** (a través de PersonGroup)
-- **Person** n:m **EscapeFavourite**
-- **EscapeGroup** 1:n **PersonGroup**
-- **Plan**, **Session**, **Survey**: ver entidades y controladores
+Revisar Swagger
 
 ---
 
@@ -141,18 +133,6 @@ spring.jpa.show-sql=true
 }
 ```
 
-### Crear persona y asociarla a un usuario
-
-**POST** `/api/persons/user/1`
-```json
-{
-  "firstName": "Juan",
-  "lastName": "Pérez",
-  "email": "juan@email.com",
-  "birthDate": "1990-01-01",
-  "isPremium": true
-}
-```
 
 ### Acceso a endpoints protegidos
 
@@ -163,56 +143,8 @@ Authorization: Bearer <token>
 
 ---
 
-## Recomendaciones para frontend y app móvil
-
-- **Web:**  
-  - Usa fetch/axios para consumir la API.
-  - Guarda el JWT en memoria o en almacenamiento seguro (no en localStorage si puedes evitarlo).
-  - Añade el JWT en la cabecera `Authorization` en cada petición protegida.
-- **Android:**  
-  - Usa Retrofit, Volley o HttpUrlConnection para consumir la API.
-  - Guarda el JWT en SharedPreferences seguro.
-  - Añade el JWT en la cabecera `Authorization` en cada petición protegida.
-- **CORS:**  
-  - Si tienes errores de CORS en desarrollo, revisa la configuración en `SpringSecurityConfig.java`.
-
----
-
-## Próximos pasos y mejoras
-
-- Implementar controladores completos para Room, Session, Plan, Survey y PersonGroup.
-- Añadir documentación Swagger/OpenAPI.
-- Mejorar validaciones y manejo de errores.
-- Añadir paginación y filtros en listados.
-- Añadir tests unitarios e integrados.
-- Optimizar la gestión de relaciones y restricciones de unicidad.
-- Revisar la consistencia de los deletes (borrado en cascada, FK).
-- Restringir CORS para producción.
-
----
 
 
 =======
-### Encuestas (`/api/surveys`) *(estructura sugerida, implementar controlador)*
 
-| Método | Endpoint           | Descripción                              |
-|--------|--------------------|------------------------------------------|
-| GET    | `/api/surveys`     | Listar todas las encuestas.              |
-| GET    | `/api/surveys/{id}`| Obtener una encuesta por su ID.          |
-| POST   | `/api/surveys`     | Crear una nueva encuesta.                |
-| PUT    | `/api/surveys/{id}`| Actualizar una encuesta existente.       |
-| DELETE | `/api/surveys/{id}`| Eliminar una encuesta por su ID.         |
-
----
-
-
-## Próximos pasos
-
-- Implementar los controladores y servicios para las entidades 
-- Añadir endpoints completos para encuestas (Survey), incluyendo creación, edición y votación.
-- Mejorar la validación y el manejo de errores en todos los endpoints.
-- Añadir pruebas unitarias e integradas para los endpoints y servicios.
-- Optimizar la gestión de relaciones y restricciones de unicidad en entidades clave.
-- Añadir paginación y filtros en los listados principales.
-- Mejorar la seguridad y autenticación de la API.
 
