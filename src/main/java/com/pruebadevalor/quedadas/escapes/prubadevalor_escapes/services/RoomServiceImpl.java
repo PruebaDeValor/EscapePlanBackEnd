@@ -214,7 +214,7 @@ public class RoomServiceImpl implements RoomService {
                 completedCount = 0L;
             }
             Double averageRating = getAverageRatingForRoom(room.getId());
-            // averageRating may be null when no ratings exist; DTO should reflect that
+            // averageRating may be null when no ratings exist;
             dto.setCompletedCount(completedCount);
             dto.setAverageRating(averageRating);
             dto.setId(room.getId());
